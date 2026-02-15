@@ -22,6 +22,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet" />
+        <link rel="icon" href="/images/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="android-chrome-192x192-icon" href="/images/android-chrome-192x192.png" />
+        <link rel="android-chrome-512x512-icon" href="/images/android-chrome-512x512.png" />
+        <link rel="android-chrome-mask-icon" href="/images/safari-pinned-tab.svg" color="#FF0000" />
       </head>
       <body>
         <a className="skip-link" href="#main">Skip to content</a>
