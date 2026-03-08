@@ -14,3 +14,71 @@ export const sponsors: Sponsor[] = [
   { name: "Warrior Hockey", logo: "https://placehold.co/200x100?text=Warrior+Hockey", link: "https://www.warrior.com/hockey" },
   { name: "Sherwood Hockey", logo: "https://placehold.co/200x100?text=Sherwood+Hockey", link: "https://www.sher-wood.com/" },
 ];
+
+export type SponsorPackage = {
+  id: string;
+  name: string;
+  price: number | null;
+  priceLabel?: string;
+  benefits: string[];
+};
+
+export const sponsorPackages: SponsorPackage[] = [
+  {
+    id: "bronze-medal",
+    name: "BRONZE MEDAL",
+    price: 500,
+    benefits: [
+      "Your company will be recognized on our website, all social media and all print ads.",
+      "All constant contact letters to our entire database continually until January 2027.",
+    ],
+  },
+  {
+    id: "silver-medal",
+    name: "SILVER MEDAL",
+    price: 1000,
+    benefits: [
+      "Sponsor bars (your company name) on jerseys.",
+      "Your company will be recognized on our website, all social media and all print ads.",
+      "All constant contact letters to our entire database for the next year.",
+      "Link from our website to yours.",
+    ],
+  },
+  {
+    id: "gold-medal",
+    name: "GOLD MEDAL",
+    price: 2500,
+    benefits: [
+      "Sponsor bars (your company name) on jerseys.",
+      "Your company will be recognized on our website, all social media and all print ads.",
+      "All constant contact letters to our entire database for the next year.",
+      "Link from our website to yours.",
+      "Individual player sponsor with a direct hand in sponsoring a child and giving them a chance of a lifetime.",
+    ],
+  },
+  {
+    id: "tournament-sponsor",
+    name: "Tournament Sponsor",
+    price: 5000,
+    priceLabel: "$5,000.00++",
+    benefits: [
+      "Your name on the tournament.",
+      "Your company will be recognized on our website, all social media and all print ads.",
+      "All constant contact letters to our entire database for the next year.",
+      "Link from our website to yours.",
+    ],
+  },
+  {
+    id: "additional-sponsorship",
+    name: "Additional Sponsorship",
+    price: null,
+    priceLabel: "Custom",
+    benefits: [
+      "Clothing - track suits, warm up gear.",
+      "Hockey jersey.",
+      "Hockey equipment (e.g., custom sticks).",
+      "Warm-up gear (e.g., shoes, track suits).",
+      "Skates.",
+    ],
+  },
+];

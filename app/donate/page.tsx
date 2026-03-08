@@ -39,7 +39,7 @@ export default function DonatePage() {
                 <h3 className="text-white mb-2">Fundraising Goal</h3>
                 <p className="small text-white-50 mb-0">Goal: <strong>{formatCurrency(goalAmount)}</strong> • Raised: <strong>{formatCurrency(raisedAmount)}</strong> ({progressPercent}%)</p>
                 <hr className="border-light border-opacity-25" />
-                <p className="small text-white-50 mb-0">Connect this progress to your payment processor later.</p>
+                <p className="small text-white-50 mb-0">Making memories on and off the ice.</p>
               </div>
             </aside>
           </div>

@@ -10,13 +10,16 @@ type DonateFormProps = {
   goalAmount?: number;
 };
 
+const sponsorTypes = ["Team", "Player"] as const;
+type SponsorType = (typeof sponsorTypes)[number];
+
 const DonateForm = ({
   playerId,
   raisedAmount = 4000,
   goalAmount = 10000,
 }: DonateFormProps) => {
-  const sponsorOptions = useMemo(
-    () => ["General Fund", ...players.map((p) => `${p.name} (${p.position})`)],
+  const playerOptions = useMemo(
+    () => players.map((p) => ({ id: p.id, label: `${p.name} (${p.position})` })),
     []
   );
 
@@ -29,10 +32,10 @@ const DonateForm = ({
 
   const effectivePlayerId = playerId ?? playerIdFromQuery;
 
-  const initialSponsor = useMemo(() => {
-    if (!effectivePlayerId) return "General Fund";
+  const initialPlayerId = useMemo(() => {
+    if (!effectivePlayerId) return "";
     const match = players.find((p) => p.id.toLowerCase() === effectivePlayerId.toLowerCase());
-    return match ? `${match.name} (${match.position})` : "General Fund";
+    return match ? match.id : "";
   }, [effectivePlayerId]);
 
   const progressPercent = goalAmount > 0
@@ -40,14 +43,23 @@ const DonateForm = ({
     : 0;
 
   const [amount, setAmount] = useState<number | "">("");
-  const [sponsor, setSponsor] = useState<string>(initialSponsor);
+  const [sponsorshipType, setSponsorshipType] = useState<SponsorType>(initialPlayerId ? "Player" : "Team");
+  const [selectedPlayerId, setSelectedPlayerId] = useState<string>(initialPlayerId);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [modalText, setModalText] = useState("");
 
+  const selectedPlayer = useMemo(
+    () => playerOptions.find((p) => p.id === selectedPlayerId),
+    [playerOptions, selectedPlayerId]
+  );
+
   useEffect(() => {
-    setSponsor(initialSponsor);
-  }, [initialSponsor]);
+    if (initialPlayerId) {
+      setSponsorshipType("Player");
+      setSelectedPlayerId(initialPlayerId);
+    }
+  }, [initialPlayerId]);
 
   function validateEmail(v: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -59,18 +71,25 @@ const DonateForm = ({
     const errs: string[] = [];
 
     if (!amt || Number.isNaN(amt) || amt < 1) errs.push("Please enter a donation amount of at least $1.");
+    if (!Number.isInteger(amt)) errs.push("Please enter a whole dollar amount (no decimals).");
+    if (sponsorshipType === "Player" && !selectedPlayerId) errs.push("Please choose a player to sponsor.");
     if (!name.trim()) errs.push("Please enter your name.");
     if (!validateEmail(email.trim())) errs.push("Please enter a valid email address.");
 
+    const sponsorTarget = sponsorshipType === "Team"
+      ? "Team Fund"
+      : (selectedPlayer?.label ?? "Player");
+
     const text = errs.length
       ? errs.join(" ")
-      : `Thank you, ${name}! Your donation of $${amt.toFixed(2)} to "${sponsor}" is ready to be processed. (Stripe/PayPal integration placeholder)`;
+      : `Thank you, ${name}! Your donation of $${amt.toFixed(2)} to "${sponsorTarget}" is ready to be processed. (Stripe/PayPal integration placeholder)`;
 
     setModalText(text);
 
     if (!errs.length) {
       setAmount("");
-      setSponsor(initialSponsor);
+      setSponsorshipType(initialPlayerId ? "Player" : "Team");
+      setSelectedPlayerId(initialPlayerId);
       setName("");
       setEmail("");
     }
@@ -96,6 +115,39 @@ const DonateForm = ({
 
           <form onSubmit={onSubmit} noValidate>
             <div className="mb-3">
+              <label className="form-label fw-bold" htmlFor="sponsorshipType">Donation Target</label>
+              <select
+                id="sponsorshipType"
+                className="form-select"
+                value={sponsorshipType}
+                onChange={(e) => setSponsorshipType(e.target.value as SponsorType)}
+                style={{ borderRadius: 16 }}
+              >
+                {sponsorTypes.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
+
+            {sponsorshipType === "Player" && (
+              <div className="mb-3">
+                <label className="form-label fw-bold" htmlFor="playerSponsor">Select Player</label>
+                <select
+                  id="playerSponsor"
+                  className="form-select"
+                  value={selectedPlayerId}
+                  onChange={(e) => setSelectedPlayerId(e.target.value)}
+                  style={{ borderRadius: 16 }}
+                >
+                  <option value="">Choose a player</option>
+                  {playerOptions.map((option) => (
+                    <option key={option.id} value={option.id}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            <div className="mb-3">
               <label className="form-label fw-bold" htmlFor="amount">Amount (CAD)</label>
               <input
                 id="amount"
@@ -106,26 +158,19 @@ const DonateForm = ({
                 inputMode="numeric"
                 placeholder="e.g., 50"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))}
+                onChange={(e) => {
+                  const nextValue = e.target.value;
+                  if (nextValue === "") {
+                    setAmount("");
+                    return;
+                  }
+                  // Keep donation amounts in whole dollars.
+                  setAmount(Math.trunc(Number(nextValue)));
+                }}
                 style={{ borderRadius: 16 }}
                 required
               />
-              <div className="form-text">Minimum $1.00</div>
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label fw-bold" htmlFor="sponsor">Sponsor Player</label>
-              <select
-                id="sponsor"
-                className="form-select"
-                value={sponsor}
-                onChange={(e) => setSponsor(e.target.value)}
-                style={{ borderRadius: 16 }}
-                required
-              >
-                {sponsorOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-              </select>
-              <div className="form-text">Choose “General Fund” or sponsor a specific player.</div>
+              <div className="form-text">Minimum $1 (whole dollars only)</div>
             </div>
 
             <div className="mb-3">
