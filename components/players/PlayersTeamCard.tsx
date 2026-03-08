@@ -16,11 +16,7 @@ const PlayersTeamCard = ({ players }: { players: Player[] }) => {
               </div>
 
               <div className="flex-grow-1">
-                <div className="fw-bold fs-5">{p.name}</div>
-                <div className="mt-1 d-flex flex-wrap gap-2">
-                  <span className="chip">#{p.jerseyNumber}</span>
-                  <span className="chip">{labelFor(p)}</span>
-                </div>
+                <div className="fw-bold fs-5">{p.name} - #{p.jerseyNumber}</div>
                 <p className="small mt-2 mb-3">{p.short}</p>
 
                 <div className="d-flex flex-wrap gap-2">

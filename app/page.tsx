@@ -7,7 +7,7 @@ import { getCurrentTeam, teams } from "@/lib/teams";
 const HomePage = () => {
   const currentTeam = getCurrentTeam();
   const nextTournament = currentTeam.tournaments[0]; // First tournament as "next"
-  
+
   return (
     <main id="main">
       <section className="parallax bg-rink hero">
@@ -59,9 +59,9 @@ const HomePage = () => {
                 </div>
 
                 <h3 className="text-white mb-1">{nextTournament.name}</h3>
-                <p className="small text-white-50 mb-0">January 15, 2026 • Niagara Region, Ontario</p>
+                <p className="small text-white-50 mb-0">December 27, 2027 • Niagara Region, Ontario</p>
 
-                <Countdown iso="2026-01-15T19:00:00" />
+                <Countdown iso="2027-12-27T19:00:00" />
 
                 <hr className="border-light border-opacity-25" />
 

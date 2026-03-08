@@ -6,6 +6,14 @@ import { formatCurrency } from "@/lib/currency";
 export default function TeamPage() {
   const teamTitle = `${team.season} Current Team: Ready to Dominate`;
   const progressPercent = team.goal > 0 ? Math.round((team.raised / team.goal) * 100) : 0;
+  const coachInitials = (name: string) =>
+    name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
 
   return (
     <main id="main">
@@ -57,6 +65,37 @@ export default function TeamPage() {
 
       <section className="py-5" style={{ background: "var(--njr-gray)" }}>
         <div className="container py-4">
+          <div className="mb-4">
+            <h2 className="mb-1">Coaching Staff</h2>
+            <p className="small mb-0">Leadership behind the bench for the current season.</p>
+          </div>
+
+          <div className="row g-4 mb-5">
+            {team.coaches.map((coach) => (
+              <div className="col-12 col-md-6 col-lg-3" key={coach.id}>
+                <article className="card njr-card h-100">
+                  <div className="card-body p-4">
+                    <div className="d-flex align-items-start gap-3">
+                      <div
+                        className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bold text-white"
+                        style={{ width: 64, height: 64, background: "var(--njr-red)", flex: "0 0 auto" }}
+                        aria-hidden="true"
+                      >
+                        {coachInitials(coach.name)}
+                      </div>
+
+                      <div className="flex-grow-1">
+                        <h3 className="h5 mb-1">{coach.name}</h3>
+                        <span className="chip">{coach.position}</span>
+                        <p className="small mb-0 mt-2 text-muted">Focused on preparation, discipline, and player development.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            ))}
+          </div>
+
           <TeamGrid />
 
           <div className="p-4 p-md-5 rounded-5 border mt-4" style={{ background: "#fff", borderColor: "rgba(0,0,0,.12)" }}>
