@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SponsorGrid from "@/components/sponsors/SponsorGrid";
+import SponsorPackagesSection from "@/components/sponsors/SponsorPackagesSection";
 import { sponsors, sponsorPackages } from "@/lib/sponsors";
-import { formatCurrency } from "@/lib/currency";
 
 export default function SponsorsPage() {
   return (
@@ -45,32 +45,16 @@ export default function SponsorsPage() {
       <section className="py-5" style={{ background: "var(--njr-gray)" }}>
         <div className="container py-4">
           <div id="tiers" className="mb-4">
+            <h2 className="mb-1">Sponsorships</h2>
+            <p className="small mb-0">Behind every great team is a network of dedicated sponsors.</p>
+          </div>
+          <SponsorGrid sponsors={sponsors} />
+
+          <div id="tiers" className="my-4">
             <h2 className="mb-1">Sponsorship Tiers</h2>
             <p className="small mb-0">Choose a package level and see exactly what your business receives.</p>
           </div>
-
-          <div className="row g-4 mb-5" aria-label="Sponsorship tiers">
-            {sponsorPackages.map((pkg) => (
-              <div key={pkg.id} className="col-12 col-md-6 col-xl">
-                <article className="card njr-card h-100">
-                  <div className="card-body p-4 d-flex flex-column">
-                    <h3 className="h5 mb-1">{pkg.name}</h3>
-                    <p className="fw-bold mb-3 text-danger">
-                      {pkg.priceLabel ?? (pkg.price !== null ? formatCurrency(pkg.price) : "Custom")}
-                    </p>
-
-                    <ul className="small ps-3 mb-0 d-flex flex-column gap-2">
-                      {pkg.benefits.map((benefit) => (
-                        <li key={`${pkg.id}-${benefit}`}>{benefit}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              </div>
-            ))}
-          </div>
-
-          <SponsorGrid sponsors={sponsors} />
+          <SponsorPackagesSection packages={sponsorPackages} />
 
           <div className="p-4 p-md-5 rounded-5 border mt-4" style={{ background: "#fff", borderColor: "rgba(0,0,0,.12)" }}>
             <h3 className="mb-2">Donate to Team or Player</h3>
