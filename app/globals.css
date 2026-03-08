@@ -43,6 +43,7 @@ a{ text-decoration: none; }
   }
 }
 .btn-njr-primary{
+  border-color: transparent !important;
   background: var(--njr-red) !important;
   color: #fff !important;
 }

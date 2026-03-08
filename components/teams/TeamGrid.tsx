@@ -1,24 +1,26 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { players, positionLabel, type Player } from "@/lib/players";
+import { positionLabel, type Player } from "@/lib/players";
+import { team } from "@/lib/teams";
 import PlayersTeamCard from "@/components/players/PlayersTeamCard"
 
-type Filter = "All" | "Forwards" | "Defenders" | "Goalies";
+type Filter = "All" | "Forwards" | "Defence" | "Goalies";
 
 const TeamGrid = () => {
   const [filter, setFilter] = useState<Filter>("All");
+  const currentPlayers = team.players;
 
   const list = useMemo(() => {
-    if (filter === "All") return players;
-    return players.filter((p) => positionLabel(p.position) === filter);
-  }, [filter]);
+    if (filter === "All") return currentPlayers;
+    return currentPlayers.filter((p) => positionLabel(p.position) === filter);
+  }, [currentPlayers, filter]);
 
   return (
     <>
       <div className="d-flex flex-wrap gap-3 align-items-center justify-content-between">
         <div>
-          <h2 className="mb-1">2025 Roster</h2>
+          <h2 className="mb-1">{team.season} Roster</h2>
           <p className="small mb-0">Interactive filter included.</p>
         </div>
 
@@ -34,7 +36,7 @@ const TeamGrid = () => {
           >
             <option value="All">All</option>
             <option value="Forwards">Forwards</option>
-            <option value="Defenders">Defenders</option>
+            <option value="Defence">Defence</option>
             <option value="Goalies">Goalies</option>
           </select>
         </div>

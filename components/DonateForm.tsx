@@ -1,19 +1,53 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { players } from "@/lib/players";
+import { formatCurrency } from "@/lib/currency";
 
-const DonateForm = () => {
+type DonateFormProps = {
+  playerId?: string;
+  raisedAmount?: number;
+  goalAmount?: number;
+};
+
+const DonateForm = ({
+  playerId,
+  raisedAmount = 4000,
+  goalAmount = 10000,
+}: DonateFormProps) => {
   const sponsorOptions = useMemo(
     () => ["General Fund", ...players.map((p) => `${p.name} (${p.position})`)],
     []
   );
 
+  const [playerIdFromQuery, setPlayerIdFromQuery] = useState<string>();
+
+  useEffect(() => {
+    const queryValue = new URLSearchParams(window.location.search).get("player") ?? undefined;
+    setPlayerIdFromQuery(queryValue);
+  }, []);
+
+  const effectivePlayerId = playerId ?? playerIdFromQuery;
+
+  const initialSponsor = useMemo(() => {
+    if (!effectivePlayerId) return "General Fund";
+    const match = players.find((p) => p.id.toLowerCase() === effectivePlayerId.toLowerCase());
+    return match ? `${match.name} (${match.position})` : "General Fund";
+  }, [effectivePlayerId]);
+
+  const progressPercent = goalAmount > 0
+    ? Math.max(0, Math.min(100, (raisedAmount / goalAmount) * 100))
+    : 0;
+
   const [amount, setAmount] = useState<number | "">("");
-  const [sponsor, setSponsor] = useState<string>("General Fund");
+  const [sponsor, setSponsor] = useState<string>(initialSponsor);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [modalText, setModalText] = useState("");
+
+  useEffect(() => {
+    setSponsor(initialSponsor);
+  }, [initialSponsor]);
 
   function validateEmail(v: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -36,7 +70,7 @@ const DonateForm = () => {
 
     if (!errs.length) {
       setAmount("");
-      setSponsor("General Fund");
+      setSponsor(initialSponsor);
       setName("");
       setEmail("");
     }
@@ -131,13 +165,13 @@ const DonateForm = () => {
 
           <div className="mt-4">
             <div className="d-flex justify-content-between small mb-2">
-              <span><strong>Raised:</strong> $4,000</span>
-              <span><strong>Goal:</strong> $10,000</span>
+              <span><strong>Raised:</strong> {formatCurrency(raisedAmount)}</span>
+              <span><strong>Goal:</strong> {formatCurrency(goalAmount)}</span>
             </div>
             <div className="progress" style={{ height: 16, borderRadius: 999, border: "1px solid rgba(0,0,0,.12)" }}>
               <div className="progress-bar" role="progressbar"
-                style={{ width: "40%", background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
-                aria-valuenow={40} aria-valuemin={0} aria-valuemax={100} />
+                style={{ width: `${progressPercent}%`, background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
+                aria-valuenow={Math.round(progressPercent)} aria-valuemin={0} aria-valuemax={100} />
             </div>
           </div>
         </div>

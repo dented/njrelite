@@ -2,7 +2,7 @@ import { Player, positionLabel } from "@/lib/players";
 
 const PlayersTeamCard = ({ players }: { players: Player[] }) => {
 
-  const labelFor = (p: Player) => positionLabel(p.position);
+  const labelFor = (p: Player) => positionLabel(p.position).toLocaleLowerCase();
 
   return (
     players.map((p) => (
@@ -17,14 +17,16 @@ const PlayersTeamCard = ({ players }: { players: Player[] }) => {
 
               <div className="flex-grow-1">
                 <div className="fw-bold fs-5">{p.name}</div>
-                <div className="chip mt-1">{labelFor(p)}</div>
+                <div className="mt-1 d-flex flex-wrap gap-2">
+                  <span className="chip">#{p.jerseyNumber}</span>
+                  <span className="chip">{labelFor(p)}</span>
+                </div>
                 <p className="small mt-2 mb-3">{p.short}</p>
 
                 <div className="d-flex flex-wrap gap-2">
-                  <a className="btn btn-njr btn-njr-primary" href="/donate#donateForm" aria-label={`Donate to ${p.name}`}>
+                  <a className="btn btn-njr btn-njr-primary" href={`/donate?player=${p.id}#donateForm`} aria-label={`Donate to ${p.name}`}>
                     Donate to a Player 🏒
                   </a>
-                  <span className="chip">ID: {p.id.toUpperCase()}</span>
                 </div>
               </div>
             </div>

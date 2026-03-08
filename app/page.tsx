@@ -2,8 +2,12 @@ import Link from "next/link";
 import Countdown from "@/components/Countdown";
 import GalleryCarousel from "@/components/GalleryCarousel";
 import { players } from "@/lib/players";
+import { getCurrentTeam, teams } from "@/lib/teams";
 
 const HomePage = () => {
+  const currentTeam = getCurrentTeam();
+  const nextTournament = currentTeam.tournaments[0]; // First tournament as "next"
+  
   return (
     <main id="main">
       <section className="parallax bg-rink hero">
@@ -32,9 +36,9 @@ const HomePage = () => {
 
               <div className="row g-2 mt-4">
                 {[
-                  ["12", "Roster Spots"],
-                  ["3", "Seasons"],
-                  ["6+", "Tournaments"],
+                  [currentTeam.players.length.toString(), "Roster Spots"],
+                  [teams.length.toString(), "Seasons"],
+                  [currentTeam.tournaments.length.toString(), "Tournaments"],
                   ["100%", "Compete"],
                 ].map(([n, l]) => (
                   <div className="col-6 col-md-3" key={l}>
@@ -54,7 +58,7 @@ const HomePage = () => {
                   Next Tournament
                 </div>
 
-                <h3 className="text-white mb-1">Niagara Invitational</h3>
+                <h3 className="text-white mb-1">{nextTournament.name}</h3>
                 <p className="small text-white-50 mb-0">January 15, 2026 • Niagara Region, Ontario</p>
 
                 <Countdown iso="2026-01-15T19:00:00" />
@@ -76,8 +80,8 @@ const HomePage = () => {
         <div className="container py-4">
           <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
             <div>
-              <h2 className="mb-1">Current Team Highlights</h2>
-              <p className="small mb-0">A few 2025 standouts — swap in real photos anytime.</p>
+              <h2 className="mb-1">{currentTeam.season} Team Highlights</h2>
+              <p className="small mb-0">Current roster standouts — swap in real photos anytime.</p>
             </div>
             <div className="d-flex gap-2 flex-wrap">
               <Link className="btn btn-njr btn-njr-primary" href="/team">Full Roster</Link>

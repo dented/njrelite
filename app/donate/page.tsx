@@ -1,7 +1,14 @@
 import Link from "next/link";
 import DonateForm from "@/components/DonateForm";
+import { formatCurrency } from "@/lib/currency";
+import { getCurrentTeam } from "@/lib/teams";
 
 export default function DonatePage() {
+  const currentTeam = getCurrentTeam();
+  const raisedAmount = currentTeam.raised;
+  const goalAmount = currentTeam.goal;
+  const progressPercent = goalAmount > 0 ? Math.round((raisedAmount / goalAmount) * 100) : 0;
+
   return (
     <main id="main">
       <section className="parallax bg-ice hero">
@@ -30,7 +37,7 @@ export default function DonatePage() {
             <aside className="col-12 col-lg-5">
               <div className="glass">
                 <h3 className="text-white mb-2">Fundraising Goal</h3>
-                <p className="small text-white-50 mb-0">Goal: <strong>$10,000</strong> • Raised: <strong>$4,000</strong> (40%)</p>
+                <p className="small text-white-50 mb-0">Goal: <strong>{formatCurrency(goalAmount)}</strong> • Raised: <strong>{formatCurrency(raisedAmount)}</strong> ({progressPercent}%)</p>
                 <hr className="border-light border-opacity-25" />
                 <p className="small text-white-50 mb-0">Connect this progress to your payment processor later.</p>
               </div>
@@ -41,7 +48,10 @@ export default function DonatePage() {
 
       <section className="py-5" style={{ background: "var(--njr-gray)" }}>
         <div className="container py-4">
-          <DonateForm />
+          <DonateForm
+            raisedAmount={raisedAmount}
+            goalAmount={goalAmount}
+          />
         </div>
       </section>
     </main>

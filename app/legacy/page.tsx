@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { previousTeams } from "@/lib/teams";
 
-export default function LegacyPage() {
+export default function PreviousTeamsPage() {
   const [seasonFilter, setSeasonFilter] = useState<string>("All");
 
   const seasonOptions = useMemo(
@@ -13,8 +13,8 @@ export default function LegacyPage() {
   );
 
   const filteredSeasons = useMemo(() => {
-    const filtered = seasonFilter === "All"
-      ? previousTeams
+    const filtered = seasonFilter === "All" 
+      ? previousTeams 
       : previousTeams.filter((s) => s.season === seasonFilter);
     // Only show teams with recap data
     return filtered.filter((s) => s.recap);

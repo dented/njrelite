@@ -1,7 +1,12 @@
 import Link from "next/link";
 import TeamGrid from "@/components/teams/TeamGrid"
+import { team } from "@/lib/teams";
+import { formatCurrency } from "@/lib/currency";
 
 export default function TeamPage() {
+  const teamTitle = `${team.season} Current Team: Ready to Dominate`;
+  const progressPercent = team.goal > 0 ? Math.round((team.raised / team.goal) * 100) : 0;
+
   return (
     <main id="main">
       <section className="parallax bg-arena hero">
@@ -16,7 +21,7 @@ export default function TeamPage() {
                 <span className="rounded-circle" style={{ width: 12, height: 12, background: "var(--njr-red)" }} />
                 Roster
               </div>
-              <h1 className="text-white">2025 Current Team: Ready to Dominate</h1>
+              <h1 className="text-white">{teamTitle}</h1>
               <p className="lead">
                 Filter the roster by position. Profiles are placeholders — perfect for swapping in real stats, height/weight, and jersey numbers.
               </p>
@@ -29,10 +34,21 @@ export default function TeamPage() {
 
             <aside className="col-12 col-lg-5">
               <div className="glass">
-                <h3 className="text-white mb-2">Personalize Your View</h3>
-                <p className="small text-white-50 mb-0">Use the filter to quickly find forwards, defenders, or goalies.</p>
+                <h3 className="text-white mb-2">Team Fundraising</h3>
+                <div className="mb-3">
+                  <div className="d-flex justify-content-between small mb-2 text-white-50">
+                    <span><strong>Raised:</strong> {formatCurrency(team.raised)}</span>
+                    <span><strong>Goal:</strong> {formatCurrency(team.goal)}</span>
+                  </div>
+                  <div className="progress" style={{ height: 16, borderRadius: 999, border: "1px solid rgba(255,255,255,.2)" }}>
+                    <div className="progress-bar" role="progressbar"
+                      style={{ width: `${progressPercent}%`, background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
+                      aria-valuenow={progressPercent} aria-valuemin={0} aria-valuemax={100} />
+                  </div>
+                  <p className="small text-white-50 mb-0 mt-2">{progressPercent}% funded</p>
+                </div>
                 <hr className="border-light border-opacity-25" />
-                <p className="small text-white-50 mb-0">Tip: Add stats, heights, and socials per player in the card template.</p>
+                <p className="small text-white-50 mb-0">Use the filter to quickly find forwards, defence, or goalies.</p>
               </div>
             </aside>
           </div>
