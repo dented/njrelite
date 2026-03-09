@@ -32,6 +32,7 @@ const HomePage = () => {
               <div className="d-flex flex-wrap gap-2 mt-3">
                 <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate Now ❤️</Link>
                 <Link className="btn btn-njr btn-njr-ghost" href="/team">Meet the Team 🧊</Link>
+                <Link className="btn btn-njr btn-njr-secondary" href="/sponsors">Become a Sponsor 🤝</Link>
               </div>
 
               <div className="row g-2 mt-4">

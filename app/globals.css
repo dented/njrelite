@@ -54,6 +54,12 @@ a{ text-decoration: none; }
   border-color: rgba(255,255,255,.55) !important;
 }
 .btn-njr-ghost:hover{ background: rgba(0,0,0,.22) !important; transform: translateY(-1px); }
+.btn-njr-secondary{
+  background: rgba(0,0,0,.12) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,.55) !important;
+}
+.btn-njr-secondary:hover{ background: rgba(0,0,0,.22) !important; transform: translateY(-1px); }
 
 .njr-card{
   border-radius: 26px !important;

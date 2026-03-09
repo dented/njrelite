@@ -162,7 +162,7 @@ const SponsorPackagesSection = ({ packages }: SponsorPackagesSectionProps) => {
       </div>
 
       {selectedPackage && (
-        <div ref={formRef} className="card njr-card mb-5" id="sponsorForm">
+        <div ref={formRef} className="p-4 p-md-5 rounded-5 border mt-4 bg-white" id="sponsorForm">
           <div className="card-body p-4 p-md-5">
             <h3 className="mb-2">Sponsor Form</h3>
             <p className="small mb-4">Package details are prefilled from your selection.</p>
