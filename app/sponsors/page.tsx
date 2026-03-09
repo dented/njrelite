@@ -24,8 +24,8 @@ export default function SponsorsPage() {
               </p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
-                <a className="btn btn-njr btn-njr-primary" href="#tiers">View Sponsorship Tiers</a>
-                <Link className="btn btn-njr btn-njr-ghost" href="/donate">Team/Player Donations</Link>
+                <a className="btn btn-njr btn-njr-secondary" href="#tiers">View Sponsorship Tiers</a>
+                <Link className="btn btn-njr btn-njr-primary" href="/donate">Team/Player Donations</Link>
                 <Link className="btn btn-njr btn-njr-ghost" href="/team">Meet the Team</Link>
               </div>
             </div>
