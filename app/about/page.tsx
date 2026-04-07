@@ -30,42 +30,15 @@ export default function AboutPage() {
               <div className="glass">
                 <h3 className="text-white mb-2">Mission</h3>
                 <p className="small text-white-50 mb-0">
-                  Create an elite development environment with high standards, professional habits, and a relentless team culture.
+                  Since the beginning of time, residents all over Canada have enjoyed watching and playing the game of hockey.  Many Canadians across this nation have dreamt of playing the game at the International level.
                 </p>
                 <hr className="border-light border-opacity-25" />
                 <p className="small text-white-50 mb-0">
-                  We prioritize player growth, safe sport, and accountability — on and off the ice.
+                  This is a chance of a lifetime to travel to Finland, experience European culture, develop friendships and build life skills that will benefit us as a whole in Ontario, and in our great country, Canada.
                 </p>
               </div>
             </aside>
           </div>
-        </div>
-      </section>
-
-      <section className="py-5" style={{ background: "var(--njr-gray)" }}>
-        <div className="container py-4">
-          <div className="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
-            <div>
-              <h2 className="mb-1">Leadership</h2>
-              <p className="small mb-0">Experienced guidance to build a sustainable program.</p>
-            </div>
-            <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate</Link>
-          </div>
-
-          <article className="card njr-card">
-            <div className="row g-0">
-              <div className="col-12 col-md-4">
-                <img src="/images/leadership-president.jpg" alt="President John Doe portrait (placeholder)" style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
-              </div>
-              <div className="col-12 col-md-8">
-                <div className="card-body p-4 p-md-5">
-                  <h3 className="mb-2">John Doe — President</h3>
-                  <p className="small mb-2"><strong>20+ years in junior sports.</strong> Focused on athlete development, program structure, and building a culture that wins the right way.</p>
-                  <p className="small mb-0">From planning tournaments to supporting families, the leadership team ensures players have what they need to compete and improve.</p>
-                </div>
-              </div>
-            </div>
-          </article>
         </div>
       </section>
 

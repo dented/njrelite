@@ -26,7 +26,7 @@ const HomePage = () => {
               </div>
               <h1 className="text-white">Welcome to Niagara Jr Elite: Forging Junior Hockey Champions</h1>
               <p className="lead">
-                A clean, modern tournament-ready presence with fast navigation, immersive visuals, and player-focused pages — built for mobile-first fans and sponsors.
+                Many Canadians across this nation have dreamt of playing the game at the International level.
               </p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
@@ -82,7 +82,7 @@ const HomePage = () => {
           <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
             <div>
               <h2 className="mb-1">{currentTeam.season} Team Highlights</h2>
-              <p className="small mb-0">Current roster standouts — swap in real photos anytime.</p>
+              <p className="small mb-0">Current roster standouts</p>
             </div>
             <div className="d-flex gap-2 flex-wrap">
               <Link className="btn btn-njr btn-njr-primary" href="/team">Full Roster</Link>
