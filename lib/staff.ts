@@ -7,4 +7,5 @@ export type StaffMember = {
   role: string;
   bio: string;
   photo: string;
+  sortOrder: number;
 };

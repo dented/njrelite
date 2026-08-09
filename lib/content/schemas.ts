@@ -89,6 +89,7 @@ export const StaffMemberSchema = z.object({
   role: z.string().min(1),
   bio: z.string().min(1),
   photo: z.string().min(1),
+  sortOrder: z.number().int().nonnegative(),
 });
 
 export const PresignUploadSchema = z.object({

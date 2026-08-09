@@ -33,7 +33,7 @@ export async function listStaff(): Promise<StaffMember[]> {
 
   return ((Items ?? []) as StaffItem[])
     .map(asStaffMember)
-    .sort((a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
+    .sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 export async function upsertStaff(staff: StaffMember[]): Promise<void> {

@@ -9,7 +9,7 @@ const SponsorGrid = ({ sponsors }: { sponsors: Sponsor[] }) => {
     <div className="row g-4" aria-label="Sponsors grid">
       {sponsors.map((sponsor: Sponsor) => (
         <div key={sponsor.name} className="col-6 col-md-4 col-lg-3">
-          <Link href={sponsor.link} target="_blank" rel="noopener noreferrer" className="d-flex p-3 rounded-5">
+          <Link href={`${sponsor.link}?utm_source=niagara_jr_elite&utm_medium=referral`} target="_blank" rel="noopener noreferrer" className="d-flex p-3 rounded-5">
             <img src={sponsor.logo} alt={`${sponsor.name} logo`} className="img-fluid mx-auto" />
           </Link>
         </div>

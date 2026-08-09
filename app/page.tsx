@@ -95,12 +95,12 @@ const HomePage = async () => {
           <div className="row g-4">
             {currentTeam.players.map((p) => (
               <div className="col-12 col-md-6 col-lg-3" key={p.name}>
-                <article className="card njr-card h-100">
+                <article className="card njr-card br-5 h-100">
                   <div className="njr-media">
                     <img src={p.img} alt={`Player highlight: ${p.name}`} loading="lazy" />
                   </div>
-                  <div className="card-body px-2 pb-0">
-                    <h3 className="mb-1">{p.name}</h3>
+                  <div className="card-body p-2 align-items-center d-flex flex-column justify-content-center gap-1 text-center">
+                    <h4 className="fw-semibold">{p.name}</h4>
                   </div>
                 </article>
               </div>

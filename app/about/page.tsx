@@ -86,7 +86,7 @@ export default async function AboutPage() {
 
           <div className="row g-4">
             {sortedStaff.map((member) => (
-              <div className="col-12 col-md-6 col-lg-4" key={member.id}>
+              <div className="col-12 col-md-3" key={member.id}>
                 <article className="card njr-card h-100">
                   <div className="njr-media">
                     <img src={member.photo} alt={`${member.role} ${member.name}`} loading="lazy" />

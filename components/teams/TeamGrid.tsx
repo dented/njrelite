@@ -100,7 +100,7 @@ const TeamGrid = ({ team }: TeamGridProps) => {
       </div>
 
       <div className="row g-4 mt-1" aria-label="Team roster grid">
-        <PlayersTeamCard players={list} onPlayerSelect={openPlayerModal} />
+        <PlayersTeamCard players={list} canSelect={true} onPlayerSelect={openPlayerModal} />
       </div>
 
       <div className="modal fade" id="playerDetailModal" tabIndex={-1} aria-labelledby="playerDetailLabel" aria-hidden="true">

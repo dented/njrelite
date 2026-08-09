@@ -1,26 +1,21 @@
 import type { Player } from "@/lib/players";
-import type { KeyboardEvent } from "react";
-import { positionLabel } from "@/lib/players";
 
 type PlayersTeamCardProps = {
   players: Player[];
-  onPlayerSelect: (player: Player) => void;
+  canSelect: boolean;
+  onPlayerSelect?: (player: Player) => void;
 };
 
-const PlayersTeamCard = ({ players, onPlayerSelect }: PlayersTeamCardProps) => {
+const PlayersTeamCard = ({ players, canSelect, onPlayerSelect }: PlayersTeamCardProps) => {
 
-  const labelFor = (p: Player) => positionLabel(p.position).toLocaleLowerCase();
-  const onCardKeyDown = (e: KeyboardEvent<HTMLElement>, p: Player) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onPlayerSelect(p);
-    }
+  const playerSelectedHandler = (player: Player) => {
+    onPlayerSelect?.(player);
   };
 
   return (
     players.map((p) => {
       return (
-      <div className="col-12 col-md-6 col-lg-4" key={p.id}>
+      <div className="col-12 col-md-6 col-lg-4" key={p.id} >
         <article className="card njr-card h-100">
         <div className="card-body p-3 p-lg-4 d-flex flex-column">
             <div className="d-flex align-items-center gap-3 mb-3">
@@ -42,13 +37,16 @@ const PlayersTeamCard = ({ players, onPlayerSelect }: PlayersTeamCardProps) => {
             </div>
 
             <div className="d-flex gap-2 mt-auto">
-              <button
-                type="button"
-                className="btn btn-outline-dark flex-fill fw-semibold"
-                onClick={() => onPlayerSelect(p)}
-              >
-                View profile
-              </button>
+              { canSelect && (
+                <button
+                  type="button"
+                  className="btn btn-outline-dark flex-fill fw-semibold"
+                  onClick={() => playerSelectedHandler(p)}
+                  aria-label={`View ${p.name} profile`}
+                >
+                  View profile
+                </button>
+              )}
               <a
                 className="btn btn-block btn-njr btn-njr-primary"
                 href={`/donate?player=${p.id}#donateForm`}
