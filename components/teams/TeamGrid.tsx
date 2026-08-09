@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { positionLabel, type Player } from "@/lib/players";
 import type { Team } from "@/lib/teams";
 import PlayersTeamCard from "@/components/players/PlayersTeamCard"
@@ -12,6 +13,7 @@ type TeamGridProps = {
 };
 
 const TeamGrid = ({ team }: TeamGridProps) => {
+  const router = useRouter();
   const [filter, setFilter] = useState<Filter>("All");
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const currentPlayers = team.players;
@@ -36,6 +38,11 @@ const TeamGrid = ({ team }: TeamGridProps) => {
     }
 
     setSelectedPlayer(null);
+  };
+
+  const goToDonateForPlayer = (playerId: string) => {
+    closePlayerModal();
+    router.push(`/donate?player=${encodeURIComponent(playerId)}#donateForm`);
   };
 
   useEffect(() => {
@@ -121,7 +128,10 @@ const TeamGrid = ({ team }: TeamGridProps) => {
                     <p className="small text-uppercase fw-bold mb-2" style={{ letterSpacing: ".08em" }}>
                       #{selectedPlayer.jerseyNumber || "TBD"} • {selectedPlayer.position || "Position TBD"}
                     </p>
-                    <p className="mb-3">{selectedPlayer.short || "Player bio coming soon."}</p>
+                    <div
+                      className="mb-3"
+                      dangerouslySetInnerHTML={{ __html: selectedPlayer.short || "Player bio coming soon." }}
+                    />
 
                     <div className="p-3 rounded-0" style={{ background: "var(--njr-gray)", border: "1px solid rgba(0,0,0,.12)" }}>
                       <div className="d-flex justify-content-between small mb-2">
@@ -142,13 +152,13 @@ const TeamGrid = ({ team }: TeamGridProps) => {
                     </div>
 
                     <div className="mt-3 d-flex flex-wrap gap-2">
-                      <a
+                      <button
+                        type="button"
                         className="btn btn-njr btn-njr-primary"
-                        href={`/donate?player=${selectedPlayer.id}#donateForm`}
-                        data-bs-dismiss="modal"
+                        onClick={() => goToDonateForPlayer(selectedPlayer.id)}
                       >
                         Donate to {selectedPlayer.name}
-                      </a>
+                      </button>
                       <button type="button" className="btn btn-njr btn-njr-secondary" data-bs-dismiss="modal" onClick={closePlayerModal}>
                         Close
                       </button>

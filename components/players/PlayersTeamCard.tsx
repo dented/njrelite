@@ -38,7 +38,7 @@ const PlayersTeamCard = ({ players, onPlayerSelect }: PlayersTeamCardProps) => {
 
               <div className="flex-grow-1">
                 <div className="fw-bold fs-5">{p.name} - #{p.jerseyNumber}</div>
-                <p className="small mt-2 mb-3">{p.short}</p>
+                <div className="small mt-2 mb-3" dangerouslySetInnerHTML={{ __html: p.short }} />
 
                 <div className="d-flex flex-wrap gap-2">
                   <a
