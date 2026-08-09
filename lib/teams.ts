@@ -2,13 +2,17 @@
 export type Player = {
   id: string;
   name: string;
+  initials?: string;
   jerseyNumber: number;
   position: "Forward" | "Defence" | "Goalie" | "";
-  short: string;
+  short?: string;
+  winterTeam?: string;
+  preGameMeal?: string;
+  favouritePlayer?: string;
   img: string;
   large: string;
   raised: number;
-  goal: number;
+  goal: number | 5500;
 };
 
 export type TeamPhoto = {

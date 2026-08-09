@@ -3,11 +3,15 @@ import { z } from "zod";
 export const PlayerSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
+  initials: z.string().optional(),
   jerseyNumber: z.number().int().nonnegative(),
   position: z.enum(["Forward", "Defence", "Goalie", ""]),
-  short: z.string(),
+  short: z.string().optional(),
   img: z.string(),
   large: z.string(),
+  winterTeam: z.string().optional(),
+  preGameMeal: z.string().optional(),
+  favouritePlayer: z.string().optional(),
   raised: z.number().nonnegative(),
   goal: z.number().nonnegative(),
 });

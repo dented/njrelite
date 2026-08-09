@@ -128,10 +128,23 @@ const TeamGrid = ({ team }: TeamGridProps) => {
                     <p className="small text-uppercase fw-bold mb-2" style={{ letterSpacing: ".08em" }}>
                       #{selectedPlayer.jerseyNumber || "TBD"} • {selectedPlayer.position || "Position TBD"}
                     </p>
-                    <div
-                      className="mb-3"
-                      dangerouslySetInnerHTML={{ __html: selectedPlayer.short || "Player bio coming soon." }}
-                    />
+                    <div className="mb-3">
+                      {selectedPlayer.winterTeam || selectedPlayer.preGameMeal || selectedPlayer.favouritePlayer ? (
+                        <div className="d-grid gap-2">
+                          {selectedPlayer.winterTeam ? (
+                            <p className="mb-0"><strong>Winter Team:</strong> {selectedPlayer.winterTeam}</p>
+                          ) : null}
+                          {selectedPlayer.preGameMeal ? (
+                            <p className="mb-0"><strong>Pre-game Meal:</strong> {selectedPlayer.preGameMeal}</p>
+                          ) : null}
+                          {selectedPlayer.favouritePlayer ? (
+                            <p className="mb-0"><strong>Favourite Player:</strong> {selectedPlayer.favouritePlayer}</p>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <p className="mb-0">Player bio coming soon.</p>
+                      )}
+                    </div>
 
                     <div className="p-3 rounded-0" style={{ background: "var(--njr-gray)", border: "1px solid rgba(0,0,0,.12)" }}>
                       <div className="d-flex justify-content-between small mb-2">

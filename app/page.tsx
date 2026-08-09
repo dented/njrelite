@@ -101,13 +101,6 @@ const HomePage = async () => {
                   </div>
                   <div className="card-body px-2 pb-0">
                     <h3 className="mb-1">{p.name}</h3>
-                    <div className="small mb-3" dangerouslySetInnerHTML={{ __html: p.short }} />
-                  </div>
-                  <div className="card-footer p-4 bg-white border-0">
-                    <div className="d-flex justify-content-between align-items-center gap-2">
-                      { p.position && <span className="chip">{p.position}</span> }
-                      <Link className="btn btn-njr btn-njr-primary" href="/team">View</Link>
-                    </div>
                   </div>
                 </article>
               </div>

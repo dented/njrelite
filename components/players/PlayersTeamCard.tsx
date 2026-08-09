@@ -18,44 +18,51 @@ const PlayersTeamCard = ({ players, onPlayerSelect }: PlayersTeamCardProps) => {
   };
 
   return (
-    players.map((p) => (
+    players.map((p) => {
+      return (
       <div className="col-12 col-md-6 col-lg-4" key={p.id}>
-        <article
-          className="card njr-card player-card-clickable h-100"
-          role="button"
-          tabIndex={0}
-          onClick={() => onPlayerSelect(p)}
-          onKeyDown={(e) => onCardKeyDown(e, p)}
-          aria-label={`View full profile for ${p.name}`}
-          style={{ cursor: "pointer" }}
-        >
-          <div className="card-body p-4">
-            <div className="d-flex flex-column flex-sm-row gap-3 align-items-start">
-              <div className="rounded-circle overflow-hidden border border-4"
-                style={{ width: 150, height: 150, flex: "0 0 auto" }}>
-                <img src={p.img} alt={`${p.name} headshot`} style={{ width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
-              </div>
+        <article className="card njr-card h-100">
+        <div className="card-body p-3 p-lg-4 d-flex flex-column">
+            <div className="d-flex align-items-center gap-3 mb-3">
+              <img
+                src={p.img || "/images/helmet-logo.png"}
+                alt={p.name}
+                className="player-avatar rounded-4 object-fit-cover"
+                style={{ width: 64, height: 64 }}
+              />
 
               <div className="flex-grow-1">
-                <div className="fw-bold fs-5">{p.name} - #{p.jerseyNumber}</div>
-                <div className="small mt-2 mb-3" dangerouslySetInnerHTML={{ __html: p.short }} />
+                <span className="badge rounded-pill player-number mb-2">
+                  #{p.jerseyNumber}
+                </span>
 
-                <div className="d-flex flex-wrap gap-2">
-                  <a
-                    className="btn btn-njr btn-njr-primary"
-                    href={`/donate?player=${p.id}#donateForm`}
-                    aria-label={`Donate to ${p.name}`}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Donate to a Player 🏒
-                  </a>
-                </div>
+                <h2 className="h5 fw-bold mb-1">{p.name}</h2>
+                <p className="text-secondary small mb-0">{p.winterTeam || "Profile coming soon"}</p>
               </div>
+            </div>
+
+            <div className="d-flex gap-2 mt-auto">
+              <button
+                type="button"
+                className="btn btn-outline-dark flex-fill fw-semibold"
+                onClick={() => onPlayerSelect(p)}
+              >
+                View profile
+              </button>
+              <a
+                className="btn btn-block btn-njr btn-njr-primary"
+                href={`/donate?player=${p.id}#donateForm`}
+                aria-label={`Donate to ${p.name}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                Donate to Player
+              </a>
             </div>
           </div>
         </article>
       </div>
-    ))
+      );
+    })
   );
 }
 
