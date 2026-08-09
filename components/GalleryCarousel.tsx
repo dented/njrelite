@@ -1,12 +1,16 @@
 "use client";
 
-import { team } from "@/lib/teams";
+import type { TeamPhoto } from "@/lib/teams";
 
-const GalleryCarousel = () => {
+type GalleryCarouselProps = {
+  photos: TeamPhoto[];
+};
+
+const GalleryCarousel = ({ photos }: GalleryCarouselProps) => {
   return (
     <div id="galleryCarousel" className="carousel slide" data-bs-ride="carousel" aria-label="Photo gallery carousel">
       <div className="carousel-inner rounded-5 overflow-hidden border border-light border-opacity-25 shadow-lg">
-        {team.photos.map((s, i) => (
+        {photos.map((s, i) => (
           <div className={`carousel-item ${i == 0 ? "active" : ""}`} key={s.id}>
             <img src={s.src} className="d-block w-100" alt={s.alt} style={{ height: 440, objectFit: "cover" }} loading="lazy" />
             <div className="carousel-caption text-start">

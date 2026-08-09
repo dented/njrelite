@@ -75,6 +75,34 @@ a{ text-decoration: none; }
   transform: translateY(-5px);
   box-shadow: 0 26px 80px rgba(0,0,0,.14);
 }
+.player-card-clickable{
+  border: 2px solid rgba(204,0,0,.24) !important;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.player-card-clickable:hover,
+.player-card-clickable:focus-visible{
+  border-color: rgba(204,0,0,.95) !important;
+  box-shadow: 0 0 0 4px rgba(204,0,0,.14), 0 26px 80px rgba(0,0,0,.14);
+}
+
+.njr-player-modal-backdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 1080;
+  background: rgba(0,0,0,.58);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.njr-player-modal{
+  width: min(920px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  border-radius: 26px !important;
+  border: 2px solid rgba(0,0,0,.86) !important;
+}
 .njr-media{
   position: relative;
   aspect-ratio: 16 / 10;

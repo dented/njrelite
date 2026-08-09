@@ -1,10 +1,14 @@
 import Link from "next/link";
 import DonateForm from "@/components/DonateForm";
 import { formatCurrency } from "@/lib/currency";
-import { getCurrentTeam } from "@/lib/teams";
+import { getCurrentTeam } from "@/lib/content/teams";
+import { getSiteCopy } from "@/lib/content/siteCopy";
 
-export default function DonatePage() {
-  const currentTeam = getCurrentTeam();
+export const dynamic = "force-dynamic";
+
+export default async function DonatePage() {
+  const currentTeam = await getCurrentTeam();
+  const copy = await getSiteCopy("donate");
   const raisedAmount = currentTeam.raised;
   const goalAmount = currentTeam.goal;
   const progressPercent = goalAmount > 0 ? Math.round((raisedAmount / goalAmount) * 100) : 0;
@@ -23,10 +27,8 @@ export default function DonatePage() {
                 <span className="rounded-circle" style={{ width: 12, height: 12, background: "var(--njr-red)" }} />
                 Support
               </div>
-              <h1 className="text-white">Support Niagara Jr Elite: Fuel Our Future</h1>
-              <p className="lead">
-                Donations support travel, ice time, equipment, video review, and athlete development. This form is a placeholder for Stripe/PayPal integration.
-              </p>
+              <h1 className="text-white">{copy?.title ?? "Support Niagara Jr Elite: Fuel Our Future"}</h1>
+              <p className="lead">{copy?.body ?? "Donations support travel, ice time, equipment, video review, and athlete development. This form is a placeholder for Stripe/PayPal integration."}</p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
                 <a className="btn btn-njr btn-njr-primary" href="#donateForm">Donate Now</a>
@@ -49,6 +51,7 @@ export default function DonatePage() {
       <section className="py-5" style={{ background: "var(--njr-gray)" }}>
         <div className="container py-4">
           <DonateForm
+            players={currentTeam.players}
             raisedAmount={raisedAmount}
             goalAmount={goalAmount}
           />

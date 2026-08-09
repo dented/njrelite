@@ -1,9 +1,14 @@
 import Link from "next/link";
 import TeamGrid from "@/components/teams/TeamGrid"
-import { team } from "@/lib/teams";
+import { getCurrentTeam } from "@/lib/content/teams";
 import { formatCurrency } from "@/lib/currency";
+import { getSiteCopy } from "@/lib/content/siteCopy";
 
-export default function TeamPage() {
+export const dynamic = "force-dynamic";
+
+export default async function TeamPage() {
+  const team = await getCurrentTeam();
+  const copy = await getSiteCopy("team");
   const teamTitle = `${team.season} Current Team: Ready to Dominate`;
   const progressPercent = team.goal > 0 ? Math.round((team.raised / team.goal) * 100) : 0;
   const coachInitials = (name: string) =>
@@ -30,9 +35,7 @@ export default function TeamPage() {
                 Roster
               </div>
               <h1 className="text-white">{teamTitle}</h1>
-              <p className="lead">
-                Filter the roster by position. Profiles are placeholders — perfect for swapping in real stats, height/weight, and jersey numbers.
-              </p>
+              <p className="lead">{copy?.body ?? "Filter the roster by position. Profiles are placeholders — perfect for swapping in real stats, height/weight, and jersey numbers."}</p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
                 <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate</Link>
@@ -96,7 +99,7 @@ export default function TeamPage() {
             ))}
           </div>
 
-          <TeamGrid />
+          <TeamGrid team={team} />
 
           <div className="p-4 p-md-5 rounded-5 border mt-4" style={{ background: "#fff", borderColor: "rgba(0,0,0,.12)" }}>
             <h3 className="mb-2">Support the Roster</h3>

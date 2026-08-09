@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -7,6 +6,7 @@ import SiteHeader from "@/components/shared/SiteHeader";
 import SiteFooter from "@/components/shared/SiteFooter";
 import ParallaxClient from "@/components/ParallaxClient";
 import RevealClient from "@/components/RevealClient";
+import BootstrapClient from "@/components/BootstrapClient";
 
 export const metadata: Metadata = {
   title: "Niagara Jr Elite - Junior Hockey Team",
@@ -32,10 +32,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body>
         <a className="skip-link" href="#main">Skip to content</a>
 
-        <Script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-          strategy="beforeInteractive"
-        />
+        <BootstrapClient />
 
         <SiteHeader />
         <ParallaxClient />

@@ -59,9 +59,9 @@ export type Team = {
 // Previous Teams
 export const teams: Team[] = [
   {
-    id: "njr-elite-2026",
+    id: "njr-elite-2027",
     name: "Niagara Jr Elite",
-    season: "2026",
+    season: "2027",
     isCurrent: true,
     raised: 8500,
     goal: 25000,
@@ -72,11 +72,8 @@ export const teams: Team[] = [
       { id: "2023-4", name: "Martone", jerseyNumber: 0, position: "Goalie", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-5", name: "Greenfield", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-6", name: "Cook", jerseyNumber: 0, position: "Goalie", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
-      { id: "2023-7", name: "Popovich", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-8", name: "Perng", jerseyNumber: 0, position: "Defence", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
-      { id: "2023-9", name: "Gill", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-10", name: "Felice", jerseyNumber: 0, position: "Forward", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
-      { id: "2023-11", name: "Lowry", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-12", name: "Risto", jerseyNumber: 0, position: "Forward", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-13", name: "Colavecchia", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-14", name: "Luchka", jerseyNumber: 0, position: "Defence", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
@@ -87,13 +84,17 @@ export const teams: Team[] = [
       { id: "2023-19", name: "Milosovic", jerseyNumber: 29, position: "Defence", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-20", name: "Horth", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
       { id: "2023-21", name: "Howe", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
+      { id: "2023-21", name: "Walter Giugovaz", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
+      { id: "2023-21", name: "Owen Bolibruck", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
+      { id: "2023-21", name: "Grayson Bolibruck", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
+      { id: "2023-21", name: "Kowalski", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
+      { id: "2023-21", name: "Chunick", jerseyNumber: 0, position: "", short: "", img: "/images/helmet-logo.png", large: "https://placehold.net/avatar-5.png", raised: 0, goal: 0 },
     ],
     coaches: [
       { id: "c1", name: "Mike Bolibruck", position: "Head Coach" },
       { id: "c2", name: "Mike Wilson", position: "Assistant Coach" },
       { id: "c3", name: "Trevor Popovich", position: "Assistant Coach" },
-      { id: "c4", name: "Trevor Popovich", position: "Assistant Coach" },
-      { id: "c5", name: "TBA", position: "Trainer" },
+      { id: "c4", name: "Brody Kritsch", position: "Assistant Coach" },
     ],
     tournaments: [
       {
@@ -235,6 +236,8 @@ export const teams: Team[] = [
     },
   },
 ];
+
+export const coaches: Coach[] = teams.flatMap(t => t.coaches);
 
 // Helper to get current team
 export const getCurrentTeam = () => teams.find(t => t.isCurrent) || teams[0];

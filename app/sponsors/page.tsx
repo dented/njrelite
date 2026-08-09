@@ -1,9 +1,15 @@
 import Link from "next/link";
 import SponsorGrid from "@/components/sponsors/SponsorGrid";
 import SponsorPackagesSection from "@/components/sponsors/SponsorPackagesSection";
-import { sponsors, sponsorPackages } from "@/lib/sponsors";
+import { listSponsorPackages, listSponsors } from "@/lib/content/sponsors";
+import { getSiteCopy } from "@/lib/content/siteCopy";
 
-export default function SponsorsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function SponsorsPage() {
+  const sponsors = await listSponsors();
+  const sponsorPackages = await listSponsorPackages();
+  const copy = await getSiteCopy("sponsors");
   return (
     <main id="main">
       <section className="parallax bg-arena hero">
@@ -18,10 +24,8 @@ export default function SponsorsPage() {
                 <span className="rounded-circle" style={{ width: 12, height: 12, background: "var(--njr-red)" }} />
                 Sponsors
               </div>
-              <h1 className="text-white">Partner with Us: Sponsorship Opportunities</h1>
-              <p className="lead">
-                Join us in supporting the next generation of hockey talent. Explore our sponsorship packages and the impact your contribution makes.
-              </p>
+              <h1 className="text-white">{copy?.title ?? "Partner with Us: Sponsorship Opportunities"}</h1>
+              <p className="lead">{copy?.body ?? "Join us in supporting the next generation of hockey talent. Explore our sponsorship packages and the impact your contribution makes."}</p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
                 <a className="btn btn-njr btn-njr-secondary" href="#tiers">View Sponsorship Tiers</a>

@@ -1,11 +1,15 @@
 import Link from "next/link";
 import Countdown from "@/components/Countdown";
 import GalleryCarousel from "@/components/GalleryCarousel";
-import { players } from "@/lib/players";
-import { getCurrentTeam, teams } from "@/lib/teams";
+import { getCurrentTeam, listTeams } from "@/lib/content/teams";
+import { getSiteCopy } from "@/lib/content/siteCopy";
 
-const HomePage = () => {
-  const currentTeam = getCurrentTeam();
+export const dynamic = "force-dynamic";
+
+const HomePage = async () => {
+  const currentTeam = await getCurrentTeam();
+  const teams = await listTeams();
+  const copy = await getSiteCopy("home");
   const nextTournament = currentTeam.tournaments[0]; // First tournament as "next"
 
   return (
@@ -24,10 +28,8 @@ const HomePage = () => {
                 <span className="rounded-circle" style={{ width: 12, height: 12, background: "var(--njr-red)" }} />
                 Junior Elite Ice Hockey
               </div>
-              <h1 className="text-white">Welcome to Niagara Jr Elite: Forging Junior Hockey Champions</h1>
-              <p className="lead">
-                Many Canadians across this nation have dreamt of playing the game at the International level.
-              </p>
+              <h1 className="text-white">{copy?.title ?? "Welcome to Niagara Jr Elite: Forging Junior Hockey Champions"}</h1>
+              <p className="lead">{copy?.body ?? "Many Canadians across this nation have dreamt of playing the game at the International level."}</p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
                 <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate Now ❤️</Link>
@@ -91,7 +93,7 @@ const HomePage = () => {
           </div>
 
           <div className="row g-4">
-            {players.map((p) => (
+            {currentTeam.players.map((p) => (
               <div className="col-12 col-md-6 col-lg-3" key={p.name}>
                 <article className="card njr-card h-100">
                   <div className="njr-media">
@@ -127,7 +129,7 @@ const HomePage = () => {
             <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate Now</Link>
           </div>
 
-          <GalleryCarousel />
+          <GalleryCarousel photos={currentTeam.photos} />
         </div>
       </section>
 

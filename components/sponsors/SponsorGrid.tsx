@@ -1,6 +1,6 @@
 "use client";
 
-import { Sponsor } from "@/lib/sponsors";
+import type { Sponsor } from "@/lib/sponsors";
 import Link from "next/link";
 
 const SponsorGrid = ({ sponsors }: { sponsors: Sponsor[] }) => {

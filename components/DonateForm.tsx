@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { players } from "@/lib/players";
+import type { Player } from "@/lib/players";
 import { formatCurrency } from "@/lib/currency";
 
 type DonateFormProps = {
+  players: Player[];
   playerId?: string;
   raisedAmount?: number;
   goalAmount?: number;
@@ -14,6 +15,7 @@ const sponsorTypes = ["Team", "Player"] as const;
 type SponsorType = (typeof sponsorTypes)[number];
 
 const DonateForm = ({
+  players,
   playerId,
   raisedAmount = 4000,
   goalAmount = 10000,
@@ -48,6 +50,7 @@ const DonateForm = ({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [modalText, setModalText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const selectedPlayer = useMemo(
     () => playerOptions.find((p) => p.id === selectedPlayerId),
@@ -85,6 +88,7 @@ const DonateForm = ({
       : `Thank you, ${name}! Your donation of $${amt.toFixed(2)} to "${sponsorTarget}" is ready to be processed. (Stripe/PayPal integration placeholder)`;
 
     setModalText(text);
+    setIsModalOpen(true);
 
     if (!errs.length) {
       setAmount("");
@@ -92,17 +96,6 @@ const DonateForm = ({
       setSelectedPlayerId(initialPlayerId);
       setName("");
       setEmail("");
-    }
-
-    // Trigger Bootstrap modal
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const bootstrap = (window as any).bootstrap;
-    const el = document.getElementById("thankYouModal");
-    if (bootstrap && el) {
-      const modal = bootstrap.Modal.getOrCreateInstance(el);
-      modal.show();
-    } else {
-      alert(text);
     }
   }
 
@@ -222,22 +215,42 @@ const DonateForm = ({
         </div>
       </div>
 
-      <div className="modal fade" id="thankYouModal" tabIndex={-1} aria-labelledby="thankYouLabel" aria-hidden="true">
+      <div
+        className={`modal ${isModalOpen ? "show d-block" : "fade"}`}
+        id="thankYouModal"
+        tabIndex={-1}
+        aria-labelledby="thankYouLabel"
+        aria-hidden={isModalOpen ? "false" : "true"}
+        aria-modal={isModalOpen ? "true" : undefined}
+        role="dialog"
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content" style={{ borderRadius: 26, border: "2px solid rgba(0,0,0,.86)" }}>
             <div className="modal-header" style={{ background: "var(--njr-gray)" }}>
               <h5 className="modal-title fw-bold" id="thankYouLabel">Thank you</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setIsModalOpen(false)}
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <p className="small mb-0">{modalText}</p>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-njr btn-njr-primary" data-bs-dismiss="modal">OK</button>
+              <button
+                type="button"
+                className="btn btn-njr btn-njr-primary"
+                onClick={() => setIsModalOpen(false)}
+              >
+                OK
+              </button>
             </div>
           </div>
         </div>
       </div>
+      {isModalOpen && <div className="modal-backdrop fade show" onClick={() => setIsModalOpen(false)} />}
     </>
   );
 }
