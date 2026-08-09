@@ -105,7 +105,7 @@ const HomePage = async () => {
                   </div>
                   <div className="card-footer p-4 bg-white border-0">
                     <div className="d-flex justify-content-between align-items-center gap-2">
-                      <span className="chip">{p.position}</span>
+                      { p.position && <span className="chip">{p.position}</span> }
                       <Link className="btn btn-njr btn-njr-primary" href="/team">View</Link>
                     </div>
                   </div>

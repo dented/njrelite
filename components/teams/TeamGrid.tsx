@@ -25,21 +25,40 @@ const TeamGrid = ({ team }: TeamGridProps) => {
     setSelectedPlayer(player);
   };
 
-  const closePlayerModal = () => setSelectedPlayer(null);
+  const closePlayerModal = () => {
+    const modalEl = document.getElementById("playerDetailModal");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const bootstrap = (window as any).bootstrap;
+    if (bootstrap?.Modal && modalEl) {
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.hide();
+      return;
+    }
+
+    setSelectedPlayer(null);
+  };
 
   useEffect(() => {
-    if (!selectedPlayer) return;
+    const modalEl = document.getElementById("playerDetailModal");
+    if (!modalEl) return;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closePlayerModal();
+    const onHidden = () => {
+      setSelectedPlayer(null);
     };
 
-    document.addEventListener("keydown", onKeyDown);
-    document.body.classList.add("modal-open");
+    modalEl.addEventListener("hidden.bs.modal", onHidden);
+
+    if (selectedPlayer) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const bootstrap = (window as any).bootstrap;
+      if (bootstrap?.Modal) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+      }
+    }
 
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.classList.remove("modal-open");
+      modalEl.removeEventListener("hidden.bs.modal", onHidden);
     };
   }, [selectedPlayer]);
 
@@ -77,74 +96,70 @@ const TeamGrid = ({ team }: TeamGridProps) => {
         <PlayersTeamCard players={list} onPlayerSelect={openPlayerModal} />
       </div>
 
-      {selectedPlayer && (
-        <div
-          className="njr-player-modal-backdrop"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="playerDetailLabel"
-          onClick={closePlayerModal}
-        >
-          <div className="njr-player-modal card" onClick={(e) => e.stopPropagation()}>
+      <div className="modal fade" id="playerDetailModal" tabIndex={-1} aria-labelledby="playerDetailLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-xl">
+          <div className="modal-content rounded-0" style={{ border: "2px solid rgba(0,0,0,.86)" }}>
             <div className="modal-header" style={{ background: "var(--njr-gray)" }}>
-              <h5 className="modal-title fw-bold" id="playerDetailLabel">{selectedPlayer.name}</h5>
-              <button type="button" className="btn-close" onClick={closePlayerModal} aria-label="Close"></button>
+              <h5 className="modal-title fw-bold" id="playerDetailLabel">{selectedPlayer?.name ?? "Player details"}</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div className="modal-body">
-              <div className="row g-4 align-items-start">
-                <div className="col-12 col-md-5">
-                  <div className="rounded-4 overflow-hidden border" style={{ borderColor: "rgba(0,0,0,.14)" }}>
-                    <img
-                      src={selectedPlayer.large || selectedPlayer.img}
-                      alt={`${selectedPlayer.name} profile photo`}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", maxHeight: 380 }}
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-7">
-                  <p className="small text-uppercase fw-bold mb-2" style={{ letterSpacing: ".08em" }}>
-                    #{selectedPlayer.jerseyNumber || "TBD"} • {selectedPlayer.position || "Position TBD"}
-                  </p>
-                  <p className="mb-3">{selectedPlayer.short || "Player bio coming soon."}</p>
-
-                  <div className="p-3 rounded-4" style={{ background: "var(--njr-gray)", border: "1px solid rgba(0,0,0,.12)" }}>
-                    <div className="d-flex justify-content-between small mb-2">
-                      <span><strong>Raised:</strong> ${selectedPlayer.raised.toLocaleString()}</span>
-                      <span><strong>Goal:</strong> ${selectedPlayer.goal.toLocaleString()}</span>
-                    </div>
-                    <div className="progress" style={{ height: 14, borderRadius: 999, border: "1px solid rgba(0,0,0,.12)" }}>
-                      <div
-                        className="progress-bar"
-                        role="progressbar"
-                        style={{ width: `${progressPercent}%`, background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
-                        aria-valuenow={progressPercent}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
+            {selectedPlayer && (
+              <div className="modal-body">
+                <div className="row g-4 align-items-start">
+                  <div className="col-12 col-md-5">
+                    <div className="rounded-0 overflow-hidden border" style={{ borderColor: "rgba(0,0,0,.14)" }}>
+                      <img
+                        src={selectedPlayer.large || selectedPlayer.img}
+                        alt={`${selectedPlayer.name} profile photo`}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", maxHeight: 520 }}
                       />
                     </div>
-                    <p className="small mb-0 mt-2">{progressPercent}% of target funded</p>
                   </div>
 
-                  <div className="mt-3 d-flex flex-wrap gap-2">
-                    <a
-                      className="btn btn-njr btn-njr-primary"
-                      href={`/donate?player=${selectedPlayer.id}#donateForm`}
-                      onClick={closePlayerModal}
-                    >
-                      Donate to {selectedPlayer.name}
-                    </a>
-                    <button type="button" className="btn btn-njr btn-njr-secondary" onClick={closePlayerModal}>
-                      Close
-                    </button>
+                  <div className="col-12 col-md-7">
+                    <p className="small text-uppercase fw-bold mb-2" style={{ letterSpacing: ".08em" }}>
+                      #{selectedPlayer.jerseyNumber || "TBD"} • {selectedPlayer.position || "Position TBD"}
+                    </p>
+                    <p className="mb-3">{selectedPlayer.short || "Player bio coming soon."}</p>
+
+                    <div className="p-3 rounded-0" style={{ background: "var(--njr-gray)", border: "1px solid rgba(0,0,0,.12)" }}>
+                      <div className="d-flex justify-content-between small mb-2">
+                        <span><strong>Raised:</strong> ${selectedPlayer.raised.toLocaleString()}</span>
+                        <span><strong>Goal:</strong> ${selectedPlayer.goal.toLocaleString()}</span>
+                      </div>
+                      <div className="progress" style={{ height: 14, borderRadius: 999, border: "1px solid rgba(0,0,0,.12)" }}>
+                        <div
+                          className="progress-bar"
+                          role="progressbar"
+                          style={{ width: `${progressPercent}%`, background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
+                          aria-valuenow={progressPercent}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                        />
+                      </div>
+                      <p className="small mb-0 mt-2">{progressPercent}% of target funded</p>
+                    </div>
+
+                    <div className="mt-3 d-flex flex-wrap gap-2">
+                      <a
+                        className="btn btn-njr btn-njr-primary"
+                        href={`/donate?player=${selectedPlayer.id}#donateForm`}
+                        data-bs-dismiss="modal"
+                      >
+                        Donate to {selectedPlayer.name}
+                      </a>
+                      <button type="button" className="btn btn-njr btn-njr-secondary" data-bs-dismiss="modal" onClick={closePlayerModal}>
+                        Close
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

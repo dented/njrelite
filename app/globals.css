@@ -84,25 +84,6 @@ a{ text-decoration: none; }
   border-color: rgba(204,0,0,.95) !important;
   box-shadow: 0 0 0 4px rgba(204,0,0,.14), 0 26px 80px rgba(0,0,0,.14);
 }
-
-.njr-player-modal-backdrop{
-  position: fixed;
-  inset: 0;
-  z-index: 1080;
-  background: rgba(0,0,0,.58);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.njr-player-modal{
-  width: min(920px, 100%);
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-  border-radius: 26px !important;
-  border: 2px solid rgba(0,0,0,.86) !important;
-}
 .njr-media{
   position: relative;
   aspect-ratio: 16 / 10;
