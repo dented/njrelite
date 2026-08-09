@@ -1,0 +1,92 @@
+[{
+  "_id": {
+    "$oid": "6a681a766521598a35826cca"
+  },
+  "id": "additional-sponsorship",
+  "name": "Additional Sponsorship",
+  "price": null,
+  "priceLabel": "Custom",
+  "benefits": [
+    "Clothing - track suits, warm up gear.",
+    "Hockey jersey.",
+    "Hockey equipment (e.g., custom sticks).",
+    "Warm-up gear (e.g., shoes, track suits).",
+    "Skates."
+  ],
+  "updatedAt": {
+    "$date": "2026-07-28T02:56:54.467Z"
+  },
+  "sortOrder": 4
+},
+{
+  "_id": {
+    "$oid": "6a681a766521598a35826ccb"
+  },
+  "id": "bronze-medal",
+  "name": "BRONZE MEDAL",
+  "price": 500,
+  "benefits": [
+    "Your company will be recognized on our website, all social media and all print ads.",
+    "All constant contact letters to our entire database continually until January 2027."
+  ],
+  "updatedAt": {
+    "$date": "2026-07-28T02:56:54.467Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a681a766521598a35826ccc"
+  },
+  "id": "silver-medal",
+  "name": "SILVER MEDAL",
+  "price": 1000,
+  "benefits": [
+    "Sponsor bars (your company name) on jerseys.",
+    "Your company will be recognized on our website, all social media and all print ads.",
+    "All constant contact letters to our entire database for the next year.",
+    "Link from our website to yours."
+  ],
+  "updatedAt": {
+    "$date": "2026-07-28T02:56:54.467Z"
+  },
+  "sortOrder": 1
+},
+{
+  "_id": {
+    "$oid": "6a681a766521598a35826ccd"
+  },
+  "id": "gold-medal",
+  "name": "GOLD MEDAL",
+  "price": 2500,
+  "benefits": [
+    "Sponsor bars (your company name) on jerseys.",
+    "Your company will be recognized on our website, all social media and all print ads.",
+    "All constant contact letters to our entire database for the next year.",
+    "Link from our website to yours.",
+    "Individual player sponsor with a direct hand in sponsoring a child and giving them a chance of a lifetime."
+  ],
+  "updatedAt": {
+    "$date": "2026-07-28T02:56:54.467Z"
+  },
+  "sortOrder": 2
+},
+{
+  "_id": {
+    "$oid": "6a681a766521598a35826cce"
+  },
+  "id": "tournament-sponsor",
+  "name": "Tournament Sponsor",
+  "price": 5000,
+  "priceLabel": "$5,000.00++",
+  "benefits": [
+    "Your name on the tournament.",
+    "Your company will be recognized on our website, all social media and all print ads.",
+    "All constant contact letters to our entire database for the next year.",
+    "Link from our website to yours."
+  ],
+  "updatedAt": {
+    "$date": "2026-07-28T02:56:54.467Z"
+  },
+  "sortOrder": 3
+}]

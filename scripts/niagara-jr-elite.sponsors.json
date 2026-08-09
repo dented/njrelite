@@ -1,0 +1,96 @@
+[{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c2f"
+  },
+  "name": "HockeyTech",
+  "logo": "https://placehold.co/200x100?text=HockeyTech",
+  "link": "https://www.hockeytech.com/",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c30"
+  },
+  "name": "Pure Hockey",
+  "logo": "https://placehold.co/200x100?text=Pure+Hockey",
+  "link": "https://www.purehockey.com/",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c31"
+  },
+  "name": "Bauer Hockey",
+  "logo": "https://placehold.co/200x100?text=Bauer+Hockey",
+  "link": "https://www.bauer.com/",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c32"
+  },
+  "name": "CCM Hockey",
+  "logo": "https://placehold.co/200x100?text=CCM+Hockey",
+  "link": "https://www.ccmhockey.com/",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c33"
+  },
+  "name": "Reebok Hockey",
+  "logo": "https://placehold.co/200x100?text=Reebok+Hockey",
+  "link": "https://www.reebok.com/us/hockey",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c34"
+  },
+  "name": "Easton Hockey",
+  "logo": "https://placehold.co/200x100?text=Easton+Hockey",
+  "link": "https://www.eastonhockey.com/",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c35"
+  },
+  "name": "Warrior Hockey",
+  "logo": "https://placehold.co/200x100?text=Warrior+Hockey",
+  "link": "https://www.warrior.com/hockey",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c36"
+  },
+  "name": "Sherwood Hockey",
+  "logo": "https://placehold.co/200x100?text=Sherwood+Hockey",
+  "link": "https://www.sher-wood.com/",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  },
+  "sortOrder": 0
+}]

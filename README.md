@@ -16,12 +16,14 @@ This app now loads teams/sponsors/site copy from **DynamoDB** (instead of hardco
 Create `.env.local` with:
 
 ```bash
-AWS_REGION="us-east-1"
+REGION="us-east-1"
 DYNAMODB_TABLE_NAME="niagara-jr-elite-content"
 
 ADMIN_BASIC_AUTH_USER="admin"
 ADMIN_BASIC_AUTH_PASS="change-me"
 ```
+
+Amplify note: Amplify Hosting reserves env names starting with `AWS`. In Amplify, use `REGION` and `S3_BUCKET_NAME` instead of `AWS_REGION` and `AWS_S3_BUCKET_NAME`.
 
 ### DynamoDB table requirements
 Create a DynamoDB table with:
@@ -32,6 +34,8 @@ Create a DynamoDB table with:
 No secondary indexes are required for the current query patterns.
 
 ### Seed the database (initial content)
+Make sure AWS credentials are available in your shell first (for example via `AWS_PROFILE`, `aws configure`, or environment variables).
+
 ```bash
 yarn seed
 ```
@@ -50,8 +54,8 @@ Admin pages include an S3 upload widget that uses **presigned PUT URLs**.
 Add env vars:
 
 ```bash
-AWS_REGION="us-east-1"
-AWS_S3_BUCKET_NAME="your-bucket-name"
+REGION="us-east-1"
+S3_BUCKET_NAME="your-bucket-name"
 
 # Optional (recommended): if set, uploaded asset URLs will use CloudFront instead of direct S3 URLs
 CLOUDFRONT_URL="https://d123456abcdef8.cloudfront.net"

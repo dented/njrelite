@@ -2,7 +2,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from "crypto";
 import { PresignUploadSchema } from "@/lib/content/schemas";
-import { getEnv, requireEnv } from "@/lib/env";
+import { getAwsRegion, getS3BucketName } from "@/lib/env";
 import { getS3Client, getS3PublicUrl } from "@/lib/s3";
 
 export const runtime = "nodejs";
@@ -25,7 +25,6 @@ function safeFileName(name: string) {
 }
 
 export async function POST(req: Request) {
-  const env = requireEnv(["AWS_S3_BUCKET_NAME", "AWS_REGION"]);
   const { prefix, fileName, contentType } = PresignUploadSchema.parse(await req.json());
 
   if (!allowedContentTypes.has(contentType)) {
@@ -41,7 +40,7 @@ export async function POST(req: Request) {
 
   const s3 = getS3Client();
   const command = new PutObjectCommand({
-    Bucket: env.AWS_S3_BUCKET_NAME as string,
+    Bucket: getS3BucketName(),
     Key: key,
     ContentType: contentType,
     // If you want public S3 objects, the bucket/prefix policy should allow read.
@@ -52,7 +51,5 @@ export async function POST(req: Request) {
   const publicUrl = getS3PublicUrl(key);
 
   // Optional: let the client know which region we used.
-  const { AWS_REGION } = getEnv();
-
-  return Response.json({ ok: true, uploadUrl: url, key, publicUrl, region: AWS_REGION });
+  return Response.json({ ok: true, uploadUrl: url, key, publicUrl, region: getAwsRegion() });
 }

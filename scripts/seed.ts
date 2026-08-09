@@ -1,14 +1,80 @@
+import { config as loadEnv } from "dotenv";
+import { z } from "zod";
 import { upsertTeam } from "@/lib/content/teams";
 import { upsertSponsors, upsertSponsorPackages } from "@/lib/content/sponsors";
 import { upsertStaff } from "@/lib/content/staff";
 import { upsertSiteCopy } from "@/lib/content/siteCopy";
-import { teams } from "@/lib/teams";
-import { sponsors, sponsorPackages } from "@/lib/sponsors";
-import { staff } from "@/lib/staff";
-import { requireEnv } from "@/lib/env";
+import { getAwsRegion, requireEnv } from "@/lib/env";
+import {
+  SiteCopySchema,
+  SponsorPackageSchema,
+  SponsorSchema,
+  StaffMemberSchema,
+  TeamSchema,
+} from "@/lib/content/schemas";
+import teamsExportJson from "@/scripts/niagara-jr-elite.teams.json";
+import sponsorsExportJson from "@/scripts/niagara-jr-elite.sponsors.json";
+import sponsorPackagesExportJson from "@/scripts/niagara-jr-elite.sponsorPackages.json";
+import staffExportJson from "@/scripts/niagara-jr-elite.staff.json";
+import siteCopyExportJson from "@/scripts/niagara-jr-elite.siteCopy.json";
+
+loadEnv({ path: ".env.local" });
+
+function stripMongoMeta(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(stripMongoMeta);
+  }
+
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>)
+      .filter(([key]) => key !== "_id" && key !== "updatedAt" && key !== "sortOrder")
+      .map(([key, item]) => [key, stripMongoMeta(item)]);
+    return Object.fromEntries(entries);
+  }
+
+  return value;
+}
+
+const TeamArraySchema = z.array(TeamSchema);
+const SponsorArraySchema = z.array(SponsorSchema);
+const SponsorPackageArraySchema = z.array(SponsorPackageSchema);
+const StaffArraySchema = z.array(StaffMemberSchema);
+const SiteCopyArraySchema = z.array(SiteCopySchema);
+
+function loadSeedData() {
+  const teamsInput = stripMongoMeta(teamsExportJson) as Array<Record<string, unknown>>;
+  const normalizedTeams = teamsInput.map((team) => ({
+    ...team,
+    players: Array.isArray(team.players)
+      ? team.players.map((player) => ({
+          short: "",
+          ...(player as Record<string, unknown>),
+        }))
+      : [],
+  }));
+
+  const staffInput = stripMongoMeta(staffExportJson) as Array<Record<string, unknown>>;
+  const normalizedStaff = staffInput.map((member) => ({
+    ...member,
+    bio:
+      typeof member.bio === "string" && member.bio.trim().length
+        ? member.bio
+        : "Profile coming soon.",
+  }));
+
+  return {
+    teams: TeamArraySchema.parse(normalizedTeams),
+    sponsors: SponsorArraySchema.parse(stripMongoMeta(sponsorsExportJson)),
+    sponsorPackages: SponsorPackageArraySchema.parse(stripMongoMeta(sponsorPackagesExportJson)),
+    staff: StaffArraySchema.parse(normalizedStaff),
+    siteCopy: SiteCopyArraySchema.parse(stripMongoMeta(siteCopyExportJson)),
+  };
+}
 
 async function main() {
-  requireEnv(["AWS_REGION", "DYNAMODB_TABLE_NAME"]);
+  getAwsRegion();
+  requireEnv(["DYNAMODB_TABLE_NAME"]);
+  const { teams, sponsors, sponsorPackages, staff, siteCopy } = loadSeedData();
 
   for (const team of teams) {
     await upsertTeam(team);
@@ -18,46 +84,7 @@ async function main() {
   await upsertSponsorPackages(sponsorPackages);
   await upsertStaff(staff);
 
-  const defaults = [
-    {
-      slug: "home",
-      title: "Welcome to Niagara Jr Elite: Forging Junior Hockey Champions",
-      body: "Many Canadians across this nation have dreamt of playing the game at the International level.",
-    },
-    {
-      slug: "team",
-      title: "",
-      body: "Filter the roster by position. Profiles are placeholders — perfect for swapping in real stats, height/weight, and jersey numbers.",
-    },
-    {
-      slug: "sponsors",
-      title: "Partner with Us: Sponsorship Opportunities",
-      body: "Join us in supporting the next generation of hockey talent. Explore our sponsorship packages and the impact your contribution makes.",
-    },
-    {
-      slug: "donate",
-      title: "Support Niagara Jr Elite: Fuel Our Future",
-      body: "Donations support travel, ice time, equipment, video review, and athlete development. This form is a placeholder for Stripe/PayPal integration.",
-    },
-    {
-      slug: "legacy",
-      title: "Our Legacy: Past Seasons and Achievements",
-      body: "Every season adds to the standard. Browse each roster and team photo by season.",
-    },
-    {
-      slug: "previous-teams",
-      title: "Our Legacy: Past Seasons and Achievements",
-      body: "Every season adds to the standard. Browse each roster and team photo by season.",
-    },
-    {
-      slug: "about",
-      title: "About Us: Building Elite Talent on the Ice",
-      body:
-        "Since the beginning of time, residents all over Canada have enjoyed watching and playing the game of hockey. Many Canadians across this nation have dreamt of playing the game at the International level.\n\nThis is a chance of a lifetime to travel to Finland, experience European culture, develop friendships and build life skills that will benefit us as a whole in Ontario, and in our great country, Canada.",
-    },
-  ] as const;
-
-  for (const value of defaults) {
+  for (const value of siteCopy) {
     await upsertSiteCopy(value);
   }
 

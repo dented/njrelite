@@ -7,7 +7,9 @@ const base = z.object({
   ADMIN_BASIC_AUTH_PASS: z.string().min(1).optional(),
 
   AWS_REGION: z.string().min(1).optional(),
+  REGION: z.string().min(1).optional(),
   AWS_S3_BUCKET_NAME: z.string().min(1).optional(),
+  S3_BUCKET_NAME: z.string().min(1).optional(),
 
   CLOUDFRONT_URL: z.string().min(1).optional(),
 });
@@ -36,4 +38,22 @@ export function requireEnv(keys: Array<keyof Env>): Env {
     throw new Error(`Missing required env vars: ${missing.join(", ")}`);
   }
   return env;
+}
+
+export function getAwsRegion(): string {
+  const env = getEnv();
+  const region = env.AWS_REGION ?? env.REGION;
+  if (!region) {
+    throw new Error("Missing required env var: AWS_REGION or REGION");
+  }
+  return region;
+}
+
+export function getS3BucketName(): string {
+  const env = getEnv();
+  const bucket = env.AWS_S3_BUCKET_NAME ?? env.S3_BUCKET_NAME;
+  if (!bucket) {
+    throw new Error("Missing required env var: AWS_S3_BUCKET_NAME or S3_BUCKET_NAME");
+  }
+  return bucket;
 }

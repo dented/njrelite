@@ -1,0 +1,34 @@
+[
+  {
+    "id": "staff-1",
+    "name": "Mike Bolibruck",
+    "type": "Coaches",
+    "role": "Head Coach",
+    "bio": "Skill development, systems, and leadership habits.",
+    "photo": "/images/helmet-logo.png"
+  },
+  {
+    "id": "staff-2",
+    "name": "Mike Wilson",
+    "type": "Coaches",
+    "role": "Assistant Coach",
+    "bio": "",
+    "photo": "/images/helmet-logo.png"
+  },
+  {
+    "id": "staff-3",
+    "name": "Trevor Popovich",
+    "type": "Coaches",
+    "role": "Assistant Coach",
+    "bio": "",
+    "photo": "/images/helmet-logo.png"
+  },
+  {
+    "id": "staff-4",
+    "name": "Brody Kritsch",
+    "type": "Coaches",
+    "role": "Skills Coach",
+    "bio": "Skill development, systems, and leadership habits.",
+    "photo": "/images/helmet-logo.png"
+  }
+]

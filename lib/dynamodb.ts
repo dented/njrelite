@@ -1,6 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { requireEnv } from "@/lib/env";
+import { getAwsRegion, requireEnv } from "@/lib/env";
 
 type GlobalWithDynamo = typeof globalThis & {
   __njrDynamoClient?: DynamoDBClient;
@@ -11,8 +11,7 @@ const globalForDynamo = globalThis as GlobalWithDynamo;
 function getDynamoClient(): DynamoDBClient {
   if (globalForDynamo.__njrDynamoClient) return globalForDynamo.__njrDynamoClient;
 
-  const { AWS_REGION } = requireEnv(["AWS_REGION"]);
-  const client = new DynamoDBClient({ region: AWS_REGION });
+  const client = new DynamoDBClient({ region: getAwsRegion() });
 
   if (process.env.NODE_ENV !== "production") {
     globalForDynamo.__njrDynamoClient = client;

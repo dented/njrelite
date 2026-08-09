@@ -1,0 +1,77 @@
+[{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c3c"
+  },
+  "slug": "home",
+  "title": "Welcome to Niagara Jr Elite: Forging Junior Hockey Champions!",
+  "body": "Many Canadians across this nation have dreamt of playing the game at the International level.",
+  "updatedAt": {
+    "$date": "2026-07-28T01:13:10.461Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c3d"
+  },
+  "slug": "team",
+  "title": "",
+  "body": "Filter the roster by position. Profiles are placeholders — perfect for swapping in real stats, height/weight, and jersey numbers.",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c3e"
+  },
+  "slug": "sponsors",
+  "title": "Partner with Us: Sponsorship Opportunities",
+  "body": "Join us in supporting the next generation of hockey talent. Explore our sponsorship packages and the impact your contribution makes.",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c3f"
+  },
+  "slug": "donate",
+  "title": "Support Niagara Jr Elite: Fuel Our Future",
+  "body": "Donations support travel, ice time, equipment, video review, and athlete development. This form is a placeholder for Stripe/PayPal integration.",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c40"
+  },
+  "slug": "legacy",
+  "title": "Our Legacy: Past Seasons and Achievements",
+  "body": "Every season adds to the standard. Browse each roster and team photo by season.",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c41"
+  },
+  "slug": "previous-teams",
+  "title": "Our Legacy: Past Seasons and Achievements",
+  "body": "Every season adds to the standard. Browse each roster and team photo by season.",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a67f8466ce1207fb54a3c42"
+  },
+  "slug": "about",
+  "title": "About Us: Building Elite Talent on the Ice",
+  "body": "Since the beginning of time, residents all over Canada have enjoyed watching and playing the game of hockey. Many Canadians across this nation have dreamt of playing the game at the International level.\n\nThis is a chance of a lifetime to travel to Finland, experience European culture, develop friendships and build life skills that will benefit us as a whole in Ontario, and in our great country, Canada.",
+  "updatedAt": {
+    "$date": "2026-07-28T00:31:02.288Z"
+  }
+}]

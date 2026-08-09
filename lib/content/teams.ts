@@ -40,6 +40,11 @@ export async function listTeams(): Promise<Team[]> {
   return items.map(asTeam).sort((a, b) => b.season.localeCompare(a.season));
 }
 
+export async function listPreviousTeams(): Promise<Team[]> {
+  const teams = await listTeams();
+  return teams.filter((team) => !team.isCurrent);
+}
+
 export async function getCurrentTeam(): Promise<Team> {
   const teams = await listTeams();
   const current = teams.find((team) => team.isCurrent);
