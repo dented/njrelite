@@ -14,7 +14,7 @@ export default async function AdminTeamPage() {
         <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
           <div>
             <h1 className="mb-1">Admin: Team</h1>
-            <p className="small mb-0">Edits save into MongoDB. Upload images to S3, then paste URLs into the JSON.</p>
+            <p className="small mb-0">Edits save into DynamoDB. Upload images to S3, then paste URLs into the JSON.</p>
           </div>
           <Link className="btn btn-njr btn-njr-ghost" href="/admin">Back</Link>
         </div>

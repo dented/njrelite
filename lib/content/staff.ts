@@ -1,17 +1,83 @@
 import type { StaffMember } from "@/lib/staff";
 import { staff as fallbackStaff } from "@/lib/staff";
-import { staffCollection } from "@/lib/content/collections";
+import { DeleteCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { getContentTableName, getDynamoDocClient } from "@/lib/dynamodb";
+
+type StaffItem = StaffMember & {
+  pk: "STAFF";
+  sk: string;
+  entity: "STAFF";
+  updatedAt: string;
+};
+
+function asStaffMember(item: StaffItem): StaffMember {
+  const { pk, sk, entity, updatedAt, ...member } = item;
+  void pk;
+  void sk;
+  void entity;
+  void updatedAt;
+  return member;
+}
 
 export async function listStaff(): Promise<StaffMember[]> {
-  const col = await staffCollection();
-  const docs = await col.find({}, { projection: { _id: 0, updatedAt: 0 } }).sort({ type: 1, name: 1 }).toArray();
+  const docClient = getDynamoDocClient();
+  const tableName = getContentTableName();
+  const { Items } = await docClient.send(
+    new QueryCommand({
+      TableName: tableName,
+      KeyConditionExpression: "pk = :pk",
+      ExpressionAttributeValues: {
+        ":pk": "STAFF",
+      },
+    })
+  );
+
+  const docs = ((Items ?? []) as StaffItem[])
+    .map(asStaffMember)
+    .sort((a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
   return docs.length ? docs : fallbackStaff;
 }
 
 export async function upsertStaff(staff: StaffMember[]): Promise<void> {
-  const col = await staffCollection();
-  await col.deleteMany({});
-  if (staff.length) {
-    await col.insertMany(staff.map((member) => ({ ...member, updatedAt: new Date() })));
+  const docClient = getDynamoDocClient();
+  const tableName = getContentTableName();
+
+  const { Items } = await docClient.send(
+    new QueryCommand({
+      TableName: tableName,
+      KeyConditionExpression: "pk = :pk",
+      ExpressionAttributeValues: {
+        ":pk": "STAFF",
+      },
+      ProjectionExpression: "pk, sk",
+    })
+  );
+
+  for (const item of Items ?? []) {
+    const key = item as { pk: "STAFF"; sk: string };
+    await docClient.send(
+      new DeleteCommand({
+        TableName: tableName,
+        Key: {
+          pk: key.pk,
+          sk: key.sk,
+        },
+      })
+    );
+  }
+
+  for (const member of staff) {
+    await docClient.send(
+      new PutCommand({
+        TableName: tableName,
+        Item: {
+          pk: "STAFF",
+          sk: member.id,
+          entity: "STAFF",
+          ...member,
+          updatedAt: new Date().toISOString(),
+        } satisfies StaffItem,
+      })
+    );
   }
 }

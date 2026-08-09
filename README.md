@@ -8,20 +8,28 @@ yarn
 yarn dev
 ```
 
-## Content management (MongoDB + Admin)
+## Content management (DynamoDB + Admin)
 
-This app now loads teams/sponsors/site copy from **MongoDB** (instead of hardcoded `lib/*.ts`) and provides a Basic-Auth–protected admin UI.
+This app now loads teams/sponsors/site copy from **DynamoDB** (instead of hardcoded `lib/*.ts`) and provides a Basic-Auth–protected admin UI.
 
 ### Required env vars
 Create `.env.local` with:
 
 ```bash
-MONGODB_URI="mongodb+srv://..."
-MONGODB_DB="niagara-jr-elite"
+AWS_REGION="us-east-1"
+DYNAMODB_TABLE_NAME="niagara-jr-elite-content"
 
 ADMIN_BASIC_AUTH_USER="admin"
 ADMIN_BASIC_AUTH_PASS="change-me"
 ```
+
+### DynamoDB table requirements
+Create a DynamoDB table with:
+
+- Partition key: `pk` (String)
+- Sort key: `sk` (String)
+
+No secondary indexes are required for the current query patterns.
 
 ### Seed the database (initial content)
 ```bash
@@ -55,7 +63,7 @@ Notes:
 
 ## Static export (GitHub Pages / Netlify)
 
-Note: `next export` is only suitable for fully static sites. If you enable MongoDB-backed content pages, static export will not work.
+Note: `next export` is only suitable for fully static sites. If you enable DynamoDB-backed content pages, static export will not work.
 
 ```bash
 yarn export

@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 const base = z.object({
-  MONGODB_URI: z.string().min(1).optional(),
-  MONGODB_DB: z.string().min(1).default("niagara-jr-elite"),
+  DYNAMODB_TABLE_NAME: z.string().min(1).default("niagara-jr-elite-content"),
 
   ADMIN_BASIC_AUTH_USER: z.string().min(1).optional(),
   ADMIN_BASIC_AUTH_PASS: z.string().min(1).optional(),

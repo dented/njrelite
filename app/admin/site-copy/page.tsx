@@ -52,7 +52,7 @@ export default function AdminSiteCopyPage() {
         <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
           <div>
             <h1 className="mb-1">Admin: Site Copy</h1>
-            <p className="small mb-0">Edit page copy in MongoDB. (Markdown/plain text — render rules are up to the page.)</p>
+            <p className="small mb-0">Edit page copy in DynamoDB. (Markdown/plain text — render rules are up to the page.)</p>
           </div>
           <Link className="btn btn-njr btn-njr-ghost" href="/admin">Back</Link>
         </div>
