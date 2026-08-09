@@ -71,6 +71,7 @@ export const SponsorPackageSchema = z.object({
   price: z.number().nullable(),
   priceLabel: z.string().optional(),
   benefits: z.array(z.string()),
+  sortOrder: z.number().int().nonnegative(),
 });
 
 export const SiteCopySchema = z.object({

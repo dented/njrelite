@@ -1,5 +1,4 @@
 import type { StaffMember } from "@/lib/staff";
-import { staff as fallbackStaff } from "@/lib/staff";
 import { DeleteCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { getContentTableName, getDynamoDocClient } from "@/lib/dynamodb";
 
@@ -32,10 +31,9 @@ export async function listStaff(): Promise<StaffMember[]> {
     })
   );
 
-  const docs = ((Items ?? []) as StaffItem[])
+  return ((Items ?? []) as StaffItem[])
     .map(asStaffMember)
     .sort((a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name));
-  return docs.length ? docs : fallbackStaff;
 }
 
 export async function upsertStaff(staff: StaffMember[]): Promise<void> {

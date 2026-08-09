@@ -112,8 +112,8 @@ export async function listSponsorPackages(): Promise<SponsorPackage[]> {
   return ((Items ?? []) as SponsorPackageItem[])
     .map(asSponsorPackage)
     .sort((a, b) => {
-      const ap = a.price ?? Number.NEGATIVE_INFINITY;
-      const bp = b.price ?? Number.NEGATIVE_INFINITY;
+      const ap = a.sortOrder ?? Number.POSITIVE_INFINITY;
+      const bp = b.sortOrder ?? Number.POSITIVE_INFINITY;
       return ap - bp;
     });
 }
