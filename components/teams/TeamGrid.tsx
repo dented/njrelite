@@ -146,23 +146,26 @@ const TeamGrid = ({ team }: TeamGridProps) => {
                       )}
                     </div>
 
-                    <div className="p-3 rounded-0" style={{ background: "var(--njr-gray)", border: "1px solid rgba(0,0,0,.12)" }}>
-                      <div className="d-flex justify-content-between small mb-2">
-                        <span><strong>Raised:</strong> ${selectedPlayer.raised.toLocaleString()}</span>
-                        <span><strong>Goal:</strong> ${selectedPlayer.goal.toLocaleString()}</span>
+                    { false && (
+                      <div className="p-3 rounded-0" style={{ background: "var(--njr-gray)", border: "1px solid rgba(0,0,0,.12)" }}>
+                        <div className="d-flex justify-content-between small mb-2">
+                          <span><strong>Raised:</strong> ${selectedPlayer.raised.toLocaleString()}</span>
+                          <span><strong>Goal:</strong> ${selectedPlayer.goal.toLocaleString()}</span>
+                        </div>
+                        <div className="progress" style={{ height: 14, borderRadius: 999, border: "1px solid rgba(0,0,0,.12)" }}>
+                          <div
+                            className="progress-bar"
+                            role="progressbar"
+                            style={{ width: `${progressPercent}%`, background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
+                            aria-valuenow={progressPercent}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                          />
+                        </div>
+                        <p className="small mb-0 mt-2">{progressPercent}% of target funded</p>
                       </div>
-                      <div className="progress" style={{ height: 14, borderRadius: 999, border: "1px solid rgba(0,0,0,.12)" }}>
-                        <div
-                          className="progress-bar"
-                          role="progressbar"
-                          style={{ width: `${progressPercent}%`, background: "linear-gradient(90deg,#FF0000,rgba(255,0,0,.72))" }}
-                          aria-valuenow={progressPercent}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                        />
-                      </div>
-                      <p className="small mb-0 mt-2">{progressPercent}% of target funded</p>
-                    </div>
+                    )}
+
 
                     <div className="mt-3 d-flex flex-wrap gap-2">
                       <button
