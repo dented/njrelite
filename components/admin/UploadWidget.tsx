@@ -6,10 +6,11 @@ type Prefix = "players" | "sponsors" | "gallery" | "tournaments" | "site";
 
 type UploadWidgetProps = {
   defaultPrefix?: Prefix;
+  accept?: string;
   onUploaded?: (result: { key: string; publicUrl: string }) => void;
 };
 
-export default function UploadWidget({ defaultPrefix = "gallery", onUploaded }: UploadWidgetProps) {
+export default function UploadWidget({ defaultPrefix = "gallery", accept = "image/*", onUploaded }: UploadWidgetProps) {
   const [prefix, setPrefix] = useState<Prefix>(defaultPrefix);
   const [status, setStatus] = useState<string>("");
   const [result, setResult] = useState<{ key: string; publicUrl: string } | null>(null);
@@ -65,7 +66,7 @@ export default function UploadWidget({ defaultPrefix = "gallery", onUploaded }: 
   return (
     <div className="card njr-card">
       <div className="card-body p-4">
-        <h2 className="h5 mb-3">Upload Image (S3)</h2>
+        <h2 className="h5 mb-3">Upload Media (S3)</h2>
         <div className="row g-3 align-items-end">
           <div className="col-12 col-md-4">
             <label className="form-label fw-bold" htmlFor="uploadPrefix">Folder</label>
@@ -90,7 +91,7 @@ export default function UploadWidget({ defaultPrefix = "gallery", onUploaded }: 
               id="uploadFile"
               className="form-control"
               type="file"
-              accept="image/*"
+              accept={accept}
               onChange={(e) => onPickFile(e.target.files?.[0] ?? null)}
               style={{ borderRadius: 16 }}
             />

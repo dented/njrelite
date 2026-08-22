@@ -29,6 +29,7 @@ const SiteHeader = () => {
             <ul className="navbar-nav gap-1 gap-lg-2 align-items-lg-center text-center">
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/">Home</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/team">Team</Link></li>
+              <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/gallery">Gallery</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/sponsors">Sponsors</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/about">About Us</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/legacy">Legacy</Link></li>

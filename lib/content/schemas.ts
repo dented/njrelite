@@ -23,10 +23,22 @@ export const TeamPhotoSchema = z.object({
   cap: z.string(),
 });
 
+export const GalleryItemSchema = z.object({
+  id: z.string().min(1),
+  type: z.enum(["photo", "video"]),
+  src: z.string().min(1),
+  alt: z.string().min(1),
+  caption: z.string().min(1).optional(),
+  poster: z.string().min(1).optional(),
+  tags: z.array(z.string().trim().min(1)).default([]),
+  sortOrder: z.number().int().nonnegative(),
+});
+
 export const CoachSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   position: z.enum(["Head Coach", "Assistant Coach", "Trainer"]),
+  img: z.string().min(1).default("/images/helmet-logo.png"),
 });
 
 export const TournamentSchema = z.object({

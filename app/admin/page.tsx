@@ -15,6 +15,15 @@ export default function AdminHomePage() {
           <div className="col-12 col-md-4">
             <article className="card njr-card h-100">
               <div className="card-body p-4">
+                <h2 className="h5">Gallery</h2>
+                <p className="small text-muted">Manage gallery photos, videos, and optional captions.</p>
+                <Link className="btn btn-njr btn-njr-primary" href="/admin/gallery">Open</Link>
+              </div>
+            </article>
+          </div>
+          <div className="col-12 col-md-4">
+            <article className="card njr-card h-100">
+              <div className="card-body p-4">
                 <h2 className="h5">Team</h2>
                 <p className="small text-muted">Edit current team, roster, coaches, tournaments, gallery, and fundraising.</p>
                 <Link className="btn btn-njr btn-njr-primary" href="/admin/team">Open</Link>

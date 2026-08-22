@@ -27,6 +27,7 @@ export type Coach = {
   id: string;
   name: string;
   position: CoachPosition;
+  img: string;
 };
 
 export type Tournament = {

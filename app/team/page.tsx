@@ -79,12 +79,12 @@ export default async function TeamPage() {
                 <article className="card njr-card h-100">
                   <div className="card-body p-4">
                     <div className="d-flex align-items-start gap-3">
-                      <div
-                        className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bold text-white"
-                        style={{ width: 64, height: 64, background: "var(--njr-red)", flex: "0 0 auto" }}
-                        aria-hidden="true"
-                      >
-                        {coachInitials(coach.name)}
+                      <div className="rounded-0 overflow-hidden border" style={{ borderColor: "rgba(0,0,0,.14)" }}>
+                        <img
+                          src={coach.img}
+                          alt={`${coach.name} profile photo`}
+                          style={{ width: "100%", height: "100%", objectFit: "cover", maxHeight: 520 }}
+                        />
                       </div>
 
                       <div className="flex-grow-1">
