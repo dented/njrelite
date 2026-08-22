@@ -29,7 +29,10 @@ export async function listGalleryItems(): Promise<GalleryItem[]> {
 
   return ((Items ?? []) as GalleryRecord[])
     .map(asGalleryItem)
-    .sort((a, b) => a.sortOrder - b.sortOrder);
+    .sort((a, b) => {
+      if (a.type !== b.type) return a.type === "video" ? -1 : 1;
+      return a.sortOrder - b.sortOrder;
+    });
 }
 
 export async function replaceGalleryItems(items: GalleryItem[]): Promise<void> {

@@ -5,7 +5,7 @@ import type { GalleryItem } from "@/lib/gallery";
 
 export default function GalleryGrid({ items }: { items: GalleryItem[] }) {
   const [selected, setSelected] = useState<GalleryItem | null>(null);
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -13,9 +13,27 @@ export default function GalleryGrid({ items }: { items: GalleryItem[] }) {
     () => Array.from(new Set(items.flatMap((item) => item.tags ?? []))).sort((a, b) => a.localeCompare(b)),
     [items]
   );
-  const visibleItems = activeTag
-    ? items.filter((item) => (item.tags ?? []).includes(activeTag))
+  const visibleItems = selectedTags.length
+    ? items.filter((item) => selectedTags.every((tag) => (item.tags ?? []).includes(tag)))
     : items;
+
+  useEffect(() => {
+    const readTagsFromUrl = () => {
+      const requestedTags = new URLSearchParams(window.location.search).getAll("tag");
+      setSelectedTags(tags.filter((tag) => requestedTags.includes(tag)));
+    };
+    readTagsFromUrl();
+    window.addEventListener("popstate", readTagsFromUrl);
+    return () => window.removeEventListener("popstate", readTagsFromUrl);
+  }, [tags]);
+
+  function updateSelectedTags(nextTags: string[]) {
+    setSelectedTags(nextTags);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("tag");
+    nextTags.forEach((tag) => url.searchParams.append("tag", tag));
+    window.history.replaceState({}, "", url);
+  }
 
   useEffect(() => {
     if (!selected) return;
@@ -41,19 +59,29 @@ export default function GalleryGrid({ items }: { items: GalleryItem[] }) {
     <>
       {tags.length ? (
         <div className="gallery-filters d-flex flex-wrap gap-2 mb-4" aria-label="Filter gallery by tag">
-          <button className={`btn btn-njr ${activeTag === null ? "btn-njr-primary" : "btn-light"}`} type="button" onClick={() => setActiveTag(null)} aria-pressed={activeTag === null}>
+          <button className={`btn btn-njr ${selectedTags.length === 0 ? "btn-njr-primary" : "btn-light"}`} type="button" onClick={() => updateSelectedTags([])} aria-pressed={selectedTags.length === 0}>
             All <span className="badge text-bg-dark ms-1">{items.length}</span>
           </button>
           {tags.map((tag) => {
-            const isActive = activeTag === tag;
+            const isActive = selectedTags.includes(tag);
             const count = items.filter((item) => (item.tags ?? []).includes(tag)).length;
             return (
-              <button className={`btn btn-njr ${isActive ? "btn-njr-primary" : "btn-light"}`} type="button" onClick={() => setActiveTag(tag)} aria-pressed={isActive} key={tag}>
+              <button
+                className={`btn btn-njr ${isActive ? "btn-njr-primary" : "btn-light"}`}
+                type="button"
+                onClick={() => updateSelectedTags(isActive ? selectedTags.filter((value) => value !== tag) : [...selectedTags, tag])}
+                aria-pressed={isActive}
+                key={tag}
+              >
                 {tag} <span className="badge text-bg-dark ms-1">{count}</span>
               </button>
             );
           })}
         </div>
+      ) : null}
+
+      {selectedTags.length && !visibleItems.length ? (
+        <p className="text-center text-muted py-5">No gallery items match all selected tags.</p>
       ) : null}
 
       <div className="row g-4">
