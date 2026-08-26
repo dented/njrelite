@@ -12,6 +12,9 @@ const base = z.object({
   S3_BUCKET_NAME: z.string().min(1).optional(),
 
   CLOUDFRONT_URL: z.string().min(1).optional(),
+
+  STRIPE_SECRET_KEY: z.string().min(1).optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().min(1).optional(),
 });
 
 export type Env = z.infer<typeof base>;

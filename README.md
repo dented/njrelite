@@ -65,6 +65,30 @@ Notes:
 - The app assumes uploaded images are readable via a public URL. Configure bucket/prefix policy accordingly.
 - Configure S3 CORS to allow browser `PUT` from your site/admin origin.
 
+## Stripe donations
+
+The donation page uses Stripe's embedded Payment Element. Add test keys to `.env.local`:
+
+```bash
+STRIPE_SECRET_KEY="sk_test_..."
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+```
+
+For local webhook testing, forward Stripe events to the app:
+
+```bash
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+```
+
+Use the `whsec_...` value printed by that command as `STRIPE_WEBHOOK_SECRET`. In production,
+register `https://your-domain/api/stripe/webhook` for the `payment_intent.succeeded` event.
+Every completed donation and sponsorship is recorded in a unified DynamoDB payment ledger using
+partition key `PAYMENT` and the Stripe PaymentIntent ID as its sort key. The same atomic transaction
+increments the current team's `raised` amount; player donations also increment that player's `raised`
+amount. Stripe webhook retries are idempotent and cannot increment the totals twice.
+The protected ledger is available at `/admin/payments` and as JSON at `/api/admin/payments`.
+
 ## Static export (GitHub Pages / Netlify)
 
 Note: `next export` is only suitable for fully static sites. If you enable DynamoDB-backed content pages, static export will not work.

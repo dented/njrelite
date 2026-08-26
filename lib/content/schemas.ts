@@ -86,6 +86,28 @@ export const SponsorPackageSchema = z.object({
   sortOrder: z.number().int().nonnegative(),
 });
 
+export const PaymentSchema = z.object({
+  id: z.string().min(1),
+  stripeEventId: z.string().min(1),
+  kind: z.enum(["donation", "sponsorship"]),
+  status: z.literal("succeeded"),
+  amount: z.number().int().positive(),
+  amountCad: z.number().positive(),
+  currency: z.string().length(3),
+  description: z.string(),
+  teamId: z.string().min(1),
+  targetType: z.enum(["Team", "Player", "Sponsor"]),
+  playerId: z.string().optional(),
+  playerName: z.string().optional(),
+  packageId: z.string().optional(),
+  packageName: z.string().optional(),
+  donorName: z.string().optional(),
+  companyName: z.string().optional(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  completedAt: z.string().datetime(),
+});
+
 export const SiteCopySchema = z.object({
   slug: z.string().min(1),
   title: z.string().optional(),

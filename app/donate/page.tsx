@@ -28,7 +28,7 @@ export default async function DonatePage() {
                 Support
               </div>
               <h1 className="text-white">{copy?.title ?? "Support Niagara Jr Elite: Fuel Our Future"}</h1>
-              <p className="lead">{copy?.body ?? "Donations support travel, ice time, equipment, video review, and athlete development. This form is a placeholder for Stripe/PayPal integration."}</p>
+              <p className="lead">{copy?.body ?? "Donations support travel, ice time, equipment, video review, and athlete development. Donate securely by card or another available payment method."}</p>
 
               <div className="d-flex flex-wrap gap-2 mt-3">
                 <a className="btn btn-njr btn-njr-primary" href="#donateForm">Donate Now</a>

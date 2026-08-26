@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { formatCurrency } from "@/lib/currency";
 import type { SponsorPackage } from "@/lib/sponsors";
+import SponsorCheckoutForm from "@/components/sponsors/SponsorCheckoutForm";
 
 type SponsorPackagesSectionProps = {
   packages: SponsorPackage[];
@@ -56,12 +57,6 @@ const getTierVisual = (id: string) => {
 
 const SponsorPackagesSection = ({ packages }: SponsorPackagesSectionProps) => {
   const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
-  const [amount, setAmount] = useState<number | "">("");
-  const [contactName, setContactName] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
   const formRef = useRef<HTMLDivElement | null>(null);
 
   const selectedPackage = useMemo(
@@ -71,46 +66,10 @@ const SponsorPackagesSection = ({ packages }: SponsorPackagesSectionProps) => {
 
   const onSelectPackage = (pkg: SponsorPackage) => {
     setSelectedPackageId(pkg.id);
-    setAmount(pkg.price ?? "");
-    setMessage("");
 
     requestAnimationFrame(() => {
       formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  };
-
-  const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!selectedPackage) {
-      setMessage("Please select a sponsorship package first.");
-      return;
-    }
-
-    const errors: string[] = [];
-    const normalizedAmount = Number(amount);
-
-    if (!normalizedAmount || Number.isNaN(normalizedAmount) || normalizedAmount < 1) {
-      errors.push("Please enter a valid sponsorship amount.");
-    }
-    if (!contactName.trim()) errors.push("Please enter your name.");
-    if (!companyName.trim()) errors.push("Please enter your company name.");
-    if (!validateEmail(email.trim())) errors.push("Please enter a valid email.");
-    if (!phone.trim()) errors.push("Please enter your phone number.");
-
-    if (errors.length > 0) {
-      setMessage(errors.join(" "));
-      return;
-    }
-
-    setMessage(`Thanks ${contactName}! Your ${selectedPackage.name} sponsorship request for ${formatCurrency(normalizedAmount)} has been captured.`);
-
-    setContactName("");
-    setCompanyName("");
-    setEmail("");
-    setPhone("");
   };
 
   return (
@@ -165,112 +124,8 @@ const SponsorPackagesSection = ({ packages }: SponsorPackagesSectionProps) => {
         <div ref={formRef} className="p-4 p-md-5 rounded-5 border mt-4 bg-white" id="sponsorForm">
           <div className="card-body p-4 p-md-5">
             <h3 className="mb-2">Sponsor Form</h3>
-            <p className="small mb-4">Package details are prefilled from your selection.</p>
-
-            <form onSubmit={onSubmit} noValidate>
-              <div className="mb-3">
-                <label className="form-label fw-bold" htmlFor="selectedPackage">Selected Package</label>
-                <input
-                  id="selectedPackage"
-                  className="form-control"
-                  value={selectedPackage.name}
-                  readOnly
-                  style={{ borderRadius: 16 }}
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label fw-bold" htmlFor="sponsorAmount">Amount (CAD)</label>
-                <input
-                  id="sponsorAmount"
-                  type="number"
-                  min={1}
-                  step={1}
-                  className="form-control"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value === "" ? "" : Number(e.target.value))}
-                  style={{ borderRadius: 16 }}
-                  required
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label fw-bold" htmlFor="packageDetails">Package Details</label>
-                <div
-                  id="packageDetails"
-                  className="rounded-4 p-3"
-                  style={{ border: "1px solid rgba(0,0,0,.12)", background: "#fff" }}
-                >
-                  <ul className="small ps-3 mb-0 d-flex flex-column gap-2">
-                    {selectedPackage.benefits.map((benefit) => (
-                      <li key={`selected-${selectedPackage.id}-${benefit}`}>{benefit}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="row g-3">
-                <div className="col-12 col-md-6">
-                  <label className="form-label fw-bold" htmlFor="contactName">Name</label>
-                  <input
-                    id="contactName"
-                    type="text"
-                    className="form-control"
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
-                    style={{ borderRadius: 16 }}
-                    required
-                  />
-                </div>
-
-                <div className="col-12 col-md-6">
-                  <label className="form-label fw-bold" htmlFor="companyName">Company Name</label>
-                  <input
-                    id="companyName"
-                    type="text"
-                    className="form-control"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
-                    style={{ borderRadius: 16 }}
-                    required
-                  />
-                </div>
-
-                <div className="col-12 col-md-6">
-                  <label className="form-label fw-bold" htmlFor="sponsorEmail">Email</label>
-                  <input
-                    id="sponsorEmail"
-                    type="email"
-                    className="form-control"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={{ borderRadius: 16 }}
-                    required
-                  />
-                </div>
-
-                <div className="col-12 col-md-6">
-                  <label className="form-label fw-bold" htmlFor="sponsorPhone">Phone</label>
-                  <input
-                    id="sponsorPhone"
-                    type="tel"
-                    className="form-control"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    style={{ borderRadius: 16 }}
-                    required
-                  />
-                </div>
-              </div>
-
-              <button type="submit" className="btn btn-njr btn-njr-primary w-100 mt-4">Submit Sponsorship Request</button>
-
-              {message && (
-                <div className="mt-3 p-3 rounded-4" style={{ background: "var(--njr-gray)", border: "1px dashed rgba(0,0,0,.18)" }}>
-                  <p className="small mb-0">{message}</p>
-                </div>
-              )}
-            </form>
+            <p className="small mb-4">Package details are prefilled from your selection. Complete payment securely with Stripe.</p>
+            <SponsorCheckoutForm key={selectedPackage.id} selectedPackage={selectedPackage} />
           </div>
         </div>
       )}

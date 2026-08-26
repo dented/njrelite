@@ -21,6 +21,16 @@ export default function AdminHomePage() {
               </div>
             </article>
           </div>
+
+          <div className="col-12 col-md-4">
+            <article className="card njr-card h-100">
+              <div className="card-body p-4">
+                <h2 className="h5">Payments</h2>
+                <p className="small text-muted">Review completed donations and sponsorships recorded from Stripe.</p>
+                <Link className="btn btn-njr btn-njr-primary" href="/admin/payments">Open</Link>
+              </div>
+            </article>
+          </div>
           <div className="col-12 col-md-4">
             <article className="card njr-card h-100">
               <div className="card-body p-4">
