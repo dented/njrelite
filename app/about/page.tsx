@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentTeam } from "@/lib/content/teams";
 import { getSiteCopy } from "@/lib/content/siteCopy";
 import { listStaff } from "@/lib/content/staff";
+import ProfileImage from "@/components/shared/ProfileImage";
 
 export const dynamic = "force-dynamic";
 
@@ -88,9 +89,12 @@ export default async function AboutPage() {
             {sortedStaff.map((member) => (
               <div className="col-12 col-md-3" key={member.id}>
                 <article className="card njr-card h-100">
-                  <div className="njr-media">
-                    <img src={member.photo} alt={`${member.role} ${member.name}`} loading="lazy" />
-                  </div>
+                  <ProfileImage
+                    name={member.name}
+                    src={member.photo}
+                    alt={`${member.role} ${member.name}`}
+                    className="njr-media"
+                  />
                   <div className="card-body p-4">
                     <p className="small text-uppercase text-muted mb-2">{member.type}</p>
                     <h3 className="mb-1">{member.name}</h3>

@@ -38,7 +38,7 @@ export const CoachSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   position: z.enum(["Head Coach", "Assistant Coach", "Trainer"]),
-  img: z.string().min(1).default("/images/helmet-logo.png"),
+  img: z.string().default("/images/helmet-logo.png"),
 });
 
 export const TournamentSchema = z.object({

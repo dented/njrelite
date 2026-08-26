@@ -3,6 +3,7 @@ import TeamGrid from "@/components/teams/TeamGrid"
 import { getCurrentTeam } from "@/lib/content/teams";
 import { formatCurrency } from "@/lib/currency";
 import { getSiteCopy } from "@/lib/content/siteCopy";
+import ProfileImage from "@/components/shared/ProfileImage";
 
 export const dynamic = "force-dynamic";
 
@@ -11,15 +12,6 @@ export default async function TeamPage() {
   const copy = await getSiteCopy("team");
   const teamTitle = `${team.season} Current Team: Ready to Dominate`;
   const progressPercent = team.goal > 0 ? Math.round((team.raised / team.goal) * 100) : 0;
-  const coachInitials = (name: string) =>
-    name
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part[0])
-      .join("")
-      .toUpperCase();
-
   return (
     <main id="main">
       <section className="parallax bg-arena hero">
@@ -79,13 +71,12 @@ export default async function TeamPage() {
                 <article className="card njr-card h-100">
                   <div className="card-body p-4">
                     <div className="d-flex align-items-start gap-3">
-                      <div className="rounded-0 overflow-hidden border" style={{ borderColor: "rgba(0,0,0,.14)" }}>
-                        <img
-                          src={coach.img}
-                          alt={`${coach.name} profile photo`}
-                          style={{ width: "100%", height: "100%", objectFit: "cover", maxHeight: 520 }}
-                        />
-                      </div>
+                      <ProfileImage
+                        name={coach.name}
+                        src={coach.img}
+                        alt={`${coach.name} profile photo`}
+                        className="coach-profile-image rounded-0 border"
+                      />
 
                       <div className="flex-grow-1">
                         <h3 className="h5 mb-1">{coach.name}</h3>

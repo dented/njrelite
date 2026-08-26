@@ -66,14 +66,13 @@ export default async function FundraisingPage() {
 
           <div className="row g-4">
             {events.map((event, index) => (
-              <div className="col-12 col-md-6" key={event.id}>
+              <div className="col-12 col-md-6 col-lg-4" key={event.id}>
                 <article
                   id={event.featured ? "featured-event" : undefined}
                   className={`fundraising-card h-100 reveal ${event.featured ? "fundraising-card-featured" : ""}`}
                   style={{ "--event-accent": event.accent } as React.CSSProperties}
                 >
-                  <div className="fundraising-card-top">
-                    <span className="fundraising-event-number">0{index + 1}</span>
+                  <div className="fundraising-card-top justify-content-end">
                     <div className="d-flex align-items-center gap-2">
                       {event.featured ? <span className="fundraising-live-label">Next event</span> : null}
                       <span className="fundraising-event-icon" aria-hidden="true">{event.icon}</span>
@@ -88,7 +87,21 @@ export default async function FundraisingPage() {
                     <h3 className="mb-3">{event.title}</h3>
                     <div className="fundraising-details mb-4">
                       <div><span>Date</span><strong>{event.date}</strong></div>
-                      <div><span>Location</span><strong>{event.location}</strong></div>
+                      <div>
+                        <span>Location</span>
+                        <strong>
+                          <a
+                            className="fundraising-location-link"
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`View ${event.location} on Google Maps`}
+                          >
+                            {event.location}
+                            <span className="fundraising-location-arrow" aria-hidden="true">↗</span>
+                          </a>
+                        </strong>
+                      </div>
                     </div>
                     <p className="text-secondary mb-0">{event.description}</p>
                     {event.offerings.length ? (
