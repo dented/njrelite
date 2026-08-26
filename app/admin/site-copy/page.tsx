@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import UploadWidget from "@/components/admin/UploadWidget";
-import JsonEditor from "@/components/admin/JsonEditor";
+import SiteCopyEditor from "@/components/admin/SiteCopyEditor";
 
 export const dynamic = "force-dynamic";
 
@@ -74,25 +74,8 @@ export default function AdminSiteCopyPage() {
           </div>
         </div>
 
-        <div className="row g-4">
-          <div className="col-12 col-lg-5">
-            <UploadWidget defaultPrefix="site" />
-          </div>
-          <div className="col-12 col-lg-7">
-            <JsonEditor
-              title={`Site Copy: ${slug}`}
-              initialValue={value}
-              onSave={async (next) => {
-                const res = await fetch(`/api/admin/site-copy/${encodeURIComponent(slug)}`, {
-                  method: "PUT",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(next),
-                });
-                if (!res.ok) throw new Error(await res.text());
-              }}
-            />
-          </div>
-        </div>
+        <div className="mb-4"><UploadWidget defaultPrefix="site" /></div>
+        <SiteCopyEditor slug={slug} initialValue={value} />
       </div>
     </main>
   );

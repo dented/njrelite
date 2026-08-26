@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const ParallaxClient = () => {
+  const pathname = usePathname();
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
     if (!els.length) return;
@@ -24,7 +26,7 @@ const ParallaxClient = () => {
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   return null;
 }

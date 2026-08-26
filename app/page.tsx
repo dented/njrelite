@@ -117,9 +117,11 @@ const HomePage = async () => {
           <div className="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4 text-white">
             <div>
               <h2 className="mb-1">Photo Gallery</h2>
-              <p className="small text-white-50 mb-0">Action shots and tournament moments (placeholders).</p>
             </div>
-            <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate Now</Link>
+            <div className="links gap-1">
+              <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate Now</Link>
+              <Link className="btn btn-njr btn-njr-secondary" href="/gallery">View Gallery</Link>
+            </div>
           </div>
 
           <GalleryCarousel photos={currentTeam.photos} />

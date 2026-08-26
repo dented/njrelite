@@ -1,6 +1,6 @@
 import Link from "next/link";
 import UploadWidget from "@/components/admin/UploadWidget";
-import JsonEditor from "@/components/admin/JsonEditor";
+import GalleryEditor from "@/components/admin/GalleryEditor";
 import { listGalleryItems } from "@/lib/content/gallery";
 
 export const dynamic = "force-dynamic";
@@ -17,12 +17,8 @@ export default async function AdminGalleryPage() {
           </div>
           <Link className="btn btn-njr btn-njr-ghost" href="/admin">Back</Link>
         </div>
-        <div className="row g-4">
-          <div className="col-12 col-lg-5"><UploadWidget defaultPrefix="gallery" accept="image/*,video/*" /></div>
-          <div className="col-12 col-lg-7">
-            <JsonEditor title="Gallery JSON (array)" initialValue={items} saveUrl="/api/admin/gallery" wrapKey="gallery" />
-          </div>
-        </div>
+        <div className="mb-4"><UploadWidget defaultPrefix="gallery" accept="image/*,video/*" /><p className="small text-muted mt-2 mb-0">After uploading media, copy its public URL into the gallery item below.</p></div>
+        <GalleryEditor initialValue={items} />
       </div>
     </main>
   );
