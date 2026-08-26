@@ -118,7 +118,7 @@ const HomePage = async () => {
             <div>
               <h2 className="mb-1">Photo Gallery</h2>
             </div>
-            <div className="links gap-1">
+            <div className="d-flex gap-2">
               <Link className="btn btn-njr btn-njr-primary" href="/donate">Donate Now</Link>
               <Link className="btn btn-njr btn-njr-secondary" href="/gallery">View Gallery</Link>
             </div>
