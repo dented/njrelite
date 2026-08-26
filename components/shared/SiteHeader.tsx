@@ -31,6 +31,7 @@ const SiteHeader = () => {
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/team">Team</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/gallery">Gallery</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/sponsors">Sponsors</Link></li>
+              <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/fundraising">Fundraising</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/about">About Us</Link></li>
               <li className="nav-item"><Link className="nav-link fw-bold px-3 rounded-pill" href="/legacy">Legacy</Link></li>
               <li className="nav-item"><Link className="btn btn-outline-light fw-bold" href="/donate">Donate</Link></li>

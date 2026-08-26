@@ -126,8 +126,22 @@ export const StaffMemberSchema = z.object({
   sortOrder: z.number().int().nonnegative(),
 });
 
+export const FundraiserSchema = z.object({
+  id: z.string().trim().min(1),
+  title: z.string().trim().min(1),
+  date: z.string().trim().min(1),
+  location: z.string().trim().min(1),
+  description: z.string().trim().min(1),
+  icon: z.string().trim().min(1).max(16),
+  accent: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+  image: z.string(),
+  featured: z.boolean(),
+  offerings: z.array(z.string().trim().min(1)),
+  sortOrder: z.number().int().nonnegative(),
+});
+
 export const PresignUploadSchema = z.object({
-  prefix: z.enum(["players", "sponsors", "gallery", "tournaments", "site"]),
+  prefix: z.enum(["players", "sponsors", "gallery", "tournaments", "fundraisers", "site"]),
   fileName: z.string().min(1),
   contentType: z.string().min(1),
 });

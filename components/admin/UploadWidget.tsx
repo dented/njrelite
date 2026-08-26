@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Prefix = "players" | "sponsors" | "gallery" | "tournaments" | "site";
+type Prefix = "players" | "sponsors" | "gallery" | "tournaments" | "fundraisers" | "site";
 
 type UploadWidgetProps = {
   defaultPrefix?: Prefix;
@@ -81,6 +81,7 @@ export default function UploadWidget({ defaultPrefix = "gallery", accept = "imag
               <option value="sponsors">sponsors</option>
               <option value="gallery">gallery</option>
               <option value="tournaments">tournaments</option>
+              <option value="fundraisers">fundraisers</option>
               <option value="site">site</option>
             </select>
           </div>
