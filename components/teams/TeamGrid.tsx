@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { positionLabel, type Player } from "@/lib/players";
+import { positionLabel, type Player, comparePlayersByLastName } from "@/lib/players";
 import type { Team } from "@/lib/teams";
 import PlayersTeamCard from "@/components/players/PlayersTeamCard"
 
@@ -16,7 +16,7 @@ const TeamGrid = ({ team }: TeamGridProps) => {
   const router = useRouter();
   const [filter, setFilter] = useState<Filter>("All");
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
-  const currentPlayers = team.players;
+  const currentPlayers = [...team.players].sort(comparePlayersByLastName);
 
   const list = useMemo(() => {
     if (filter === "All") return currentPlayers;
@@ -96,7 +96,7 @@ const TeamGrid = ({ team }: TeamGridProps) => {
       </div>
 
       <div className="row g-4 mt-1" aria-label="Team roster grid">
-        <PlayersTeamCard players={list} canSelect={true} onPlayerSelect={openPlayerModal} />
+        <PlayersTeamCard players={currentPlayers} canSelect={true} onPlayerSelect={openPlayerModal} />
       </div>
 
       <div className="modal fade" id="playerDetailModal" tabIndex={-1} aria-labelledby="playerDetailLabel" aria-hidden="true">

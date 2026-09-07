@@ -3,11 +3,13 @@ import Countdown from "@/components/Countdown";
 import GalleryCarousel from "@/components/GalleryCarousel";
 import { getCurrentTeam, listTeams } from "@/lib/content/teams";
 import { getSiteCopy } from "@/lib/content/siteCopy";
+import { comparePlayersByLastName } from "@/lib/players";
 
 export const dynamic = "force-dynamic";
 
 const HomePage = async () => {
   const currentTeam = await getCurrentTeam();
+  const sortedPlayers = [...currentTeam.players].sort(comparePlayersByLastName);
   const teams = await listTeams();
   const copy = await getSiteCopy("home");
   const nextTournament = currentTeam.tournaments[0]; // First tournament as "next"
@@ -93,7 +95,7 @@ const HomePage = async () => {
           </div>
 
           <div className="row g-4">
-            {currentTeam.players.map((p) => (
+            {sortedPlayers.map((p) => (
               <div className="col-12 col-md-6 col-lg-3" key={p.name}>
                 <article className="card njr-card br-5 h-100">
                   <div className="njr-media">
