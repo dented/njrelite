@@ -89,6 +89,35 @@ increments the current team's `raised` amount; player donations also increment t
 amount. Stripe webhook retries are idempotent and cannot increment the totals twice.
 The protected ledger is available at `/admin/payments` and as JSON at `/api/admin/payments`.
 
+### Amplify payment configuration
+
+Set `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, and
+`STRIPE_WEBHOOK_SECRET` in Amplify's environment variables. Use secret and publishable
+keys from the same Stripe account and mode. Use the webhook signing secret for the
+deployed endpoint, rather than the local Stripe CLI listener.
+
+Amplify build variables are not automatically available to Next.js server routes.
+The repository's `amplify.yml` runs the helper before building. Push that file and
+`scripts/prepare-stripe-env.mjs` together so the next Amplify build uses them.
+If managing build settings in the console instead, add the helper immediately before
+your existing build command (keep the other commands, artifacts, and cache settings):
+
+```yaml
+build:
+  commands:
+    - node scripts/prepare-stripe-env.mjs
+    - npm run build
+```
+
+The helper writes only the Stripe variables into the ignored `.env.production` file
+without logging their values. It stops the build if either payment key is missing.
+Do not put the secret key in `NEXT_PUBLIC_*` or `next.config.js`'s `env` option.
+Redeploy after changing the environment variables or build settings.
+
+If payment setup still returns 500, inspect the Amplify server logs for
+`Unable to create Stripe PaymentIntent`. The following error distinguishes missing
+runtime configuration from a rejected Stripe key or another Stripe API failure.
+
 ## Static export (GitHub Pages / Netlify)
 
 Note: `next export` is only suitable for fully static sites. If you enable DynamoDB-backed content pages, static export will not work.
