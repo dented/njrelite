@@ -51,7 +51,7 @@ export async function recordPaymentAndUpdateRaised(paymentInput: Payment): Promi
     "#updatedAt": "updatedAt",
   };
   const expressionValues: Record<string, unknown> = {
-    ":amount": payment.amountCad,
+    ":amount": payment.donationAmountCad ?? payment.amountCad,
     ":zero": 0,
     ":updatedAt": payment.completedAt,
   };

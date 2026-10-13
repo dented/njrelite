@@ -5,6 +5,7 @@ import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-
 import { loadStripe } from "@stripe/stripe-js";
 import type { Player } from "@/lib/players";
 import { formatCurrency } from "@/lib/currency";
+import { calculateDonationTotal } from "@/lib/donation-fees";
 
 type DonateFormProps = { players: Player[]; playerId?: string; raisedAmount?: number; goalAmount?: number };
 const sponsorTypes = ["Team", "Player"] as const;
@@ -50,13 +51,13 @@ function StripePaymentForm({ amount, onBack }: { amount: number; onBack: () => v
   return (
     <form onSubmit={onPay}>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <div><div className="small text-muted">Donation total</div><strong className="fs-4">{formatCurrency(amount)}</strong></div>
+        <div><div className="small text-muted">Total charged (including processing fees)</div><strong className="fs-4">{formatCurrency(amount)}</strong></div>
         <button className="btn btn-sm btn-outline-secondary" type="button" onClick={onBack} disabled={isPaying}>Edit details</button>
       </div>
       <PaymentElement options={{ layout: "tabs" }} />
       {error && <div className="alert alert-danger mt-3 mb-0" role="alert">{error}</div>}
       <button className="btn btn-njr btn-njr-primary w-100 mt-4" type="submit" disabled={!stripe || isPaying}>
-        {isPaying ? "Processing…" : `Donate ${formatCurrency(amount)} ❤️`}
+        {isPaying ? "Processing…" : `Pay ${formatCurrency(amount)} ❤️`}
       </button>
       <p className="small text-muted text-center mt-3 mb-0">Payment details are securely handled by Stripe.</p>
     </form>
@@ -83,6 +84,9 @@ export default function DonateForm({ players, playerId, raisedAmount = 4000, goa
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentTotalCents, setPaymentTotalCents] = useState(0);
+  const validAmount = typeof amount === "number" && Number.isInteger(amount) && amount >= 1 && amount <= 100000;
+  const estimate = validAmount ? calculateDonationTotal(amount * 100) : undefined;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -112,6 +116,7 @@ export default function DonateForm({ players, playerId, raisedAmount = 4000, goa
       const result = await response.json();
       if (!response.ok || !result.clientSecret) throw new Error(result.error ?? "Unable to start payment.");
       setClientSecret(result.clientSecret);
+      setPaymentTotalCents(result.totalCents);
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Unable to start payment.");
     } finally { setIsLoading(false); }
@@ -123,7 +128,7 @@ export default function DonateForm({ players, playerId, raisedAmount = 4000, goa
       <p className="small mb-4">Support the team securely with Stripe.</p>
       {clientSecret && stripePromise ? (
         <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe", variables: { colorPrimary: "#ff0000", borderRadius: "16px" } } }}>
-          <StripePaymentForm amount={Number(amount)} onBack={() => setClientSecret("")} />
+          <StripePaymentForm amount={paymentTotalCents / 100} onBack={() => setClientSecret("")} />
         </Elements>
       ) : (
         <form onSubmit={onSubmit} noValidate>
@@ -140,10 +145,18 @@ export default function DonateForm({ players, playerId, raisedAmount = 4000, goa
               {playerOptions.map((option) => <option key={option.id} value={option.id}>{option.label}</option>)}
             </select>
           </div>}
+          <div id="donationFeeSummary" className="rounded border bg-light p-3 mb-3">
+            <p className="small mb-2">Credit card processing fees are added to each donation.</p>
+            <div aria-live="polite" aria-atomic="true">
+              <div className="d-flex justify-content-between small"><span>Donation</span><span>{estimate ? formatCurrency(Number(amount)) : "—"}</span></div>
+              <div className="d-flex justify-content-between small"><span>Credit card processing fees</span><span>{estimate ? formatCurrency(estimate.feeCents / 100) : "—"}</span></div>
+              <div className="d-flex justify-content-between fw-bold mt-2"><span>Total charged (CAD)</span><span>{estimate ? formatCurrency(estimate.totalCents / 100) : "—"}</span></div>
+            </div>
+          </div>
           <div className="mb-3">
-            <label className="form-label fw-bold" htmlFor="amount">Amount (CAD)</label>
+            <label className="form-label fw-bold" htmlFor="amount">Donation amount (CAD)</label>
             <input id="amount" type="number" className="form-control" min={1} max={100000} step={1} inputMode="numeric" placeholder="e.g., 50" value={amount}
-              onChange={(event) => setAmount(event.target.value === "" ? "" : Math.trunc(Number(event.target.value)))} style={{ borderRadius: 16 }} required />
+              onChange={(event) => setAmount(event.target.value === "" ? "" : Number(event.target.value))} aria-describedby="donationFeeSummary" style={{ borderRadius: 16 }} required />
             <div className="form-text">Minimum $1 (whole dollars only)</div>
           </div>
           <div className="mb-3">

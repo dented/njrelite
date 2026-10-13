@@ -9,6 +9,7 @@ export default async function DonationSuccessPage({ searchParams }: {
 }) {
   const { payment_intent: paymentIntentId } = await searchParams;
   let amount: number | undefined;
+  let totalCharged: number | undefined;
   let succeeded = false;
 
   if (paymentIntentId?.startsWith("pi_")) {
@@ -16,6 +17,11 @@ export default async function DonationSuccessPage({ searchParams }: {
       const intent = await getStripe().paymentIntents.retrieve(paymentIntentId);
       succeeded = intent.status === "succeeded";
       amount = intent.amount_received / 100;
+      const donationCents = Number(intent.metadata.donationCents);
+      if (Number.isSafeInteger(donationCents) && donationCents > 0 && donationCents <= intent.amount_received) {
+        totalCharged = amount;
+        amount = donationCents / 100;
+      }
     } catch {
       succeeded = false;
     }
@@ -29,6 +35,7 @@ export default async function DonationSuccessPage({ searchParams }: {
             <div className="display-4 mb-3" aria-hidden="true">❤️</div>
             <h1 className="h2">Thank you for your support!</h1>
             <p className="lead mb-4">Your donation{amount !== undefined ? ` of ${formatCurrency(amount)}` : ""} was successful. A payment receipt will be sent by Stripe.</p>
+            {totalCharged !== undefined && <p className="text-muted mb-4">Total charged, including processing fees: {formatCurrency(totalCharged)}.</p>}
           </> : <>
             <h1 className="h2">Payment status unavailable</h1>
             <p className="mb-4">We could not confirm this payment yet. Please check your email before trying again.</p>

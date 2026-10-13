@@ -46,10 +46,13 @@ export async function POST(request: Request) {
         completedAt: new Date(event.created * 1000).toISOString(),
       };
     } else if ((targetType === "Team" || targetType === "Player") && intent.metadata.teamId) {
+      const donationCents = Number(intent.metadata.donationCents);
       payment = {
         id: intent.id,
         stripeEventId: event.id,
         kind: "donation",
+        donationAmountCad: Number.isSafeInteger(donationCents) && donationCents > 0 && donationCents <= intent.amount_received
+          ? donationCents / 100 : undefined,
         status: "succeeded",
         amount: intent.amount_received,
         amountCad: intent.amount_received / 100,

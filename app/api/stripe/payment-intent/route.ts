@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { getCurrentTeam } from "@/lib/content/teams";
 import { getStripe } from "@/lib/stripe";
+import { calculateDonationTotal } from "@/lib/donation-fees";
 
 export const runtime = "nodejs";
 
@@ -29,8 +30,10 @@ export async function POST(request: Request) {
   }
 
   try {
+    const donationCents = donation.amount * 100;
+    const { totalCents, feeCents } = calculateDonationTotal(donationCents);
     const paymentIntent = await getStripe().paymentIntents.create({
-      amount: donation.amount * 100,
+      amount: totalCents,
       currency: "cad",
       receipt_email: donation.email,
       description: donation.sponsorshipType === "Team"
@@ -38,6 +41,8 @@ export async function POST(request: Request) {
         : `PLAYER: ${player!.id} - ${player!.name}`,
       metadata: {
         paymentKind: "donation",
+        donationCents: String(donationCents),
+        processingFeeCents: String(feeCents),
         donorName: donation.name,
         donorEmail: donation.email,
         teamId: team.id,
@@ -52,7 +57,7 @@ export async function POST(request: Request) {
       throw new Error("Stripe did not return a client secret.");
     }
 
-    return Response.json({ clientSecret: paymentIntent.client_secret });
+    return Response.json({ clientSecret: paymentIntent.client_secret, totalCents });
   } catch (error) {
     console.error("Unable to create Stripe PaymentIntent", error);
     return Response.json({ error: "Payment setup is temporarily unavailable." }, { status: 500 });

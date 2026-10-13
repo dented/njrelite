@@ -93,6 +93,7 @@ export const PaymentSchema = z.object({
   status: z.literal("succeeded"),
   amount: z.number().int().positive(),
   amountCad: z.number().positive(),
+  donationAmountCad: z.number().positive().optional(),
   currency: z.string().length(3),
   description: z.string(),
   teamId: z.string().min(1),
